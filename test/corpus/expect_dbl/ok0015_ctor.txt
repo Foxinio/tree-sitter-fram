@@ -10,9 +10,54 @@ data B =
 data C =
 | C of (A -> B), A
 
-data D =
-| D of (A ->[] C)
+data E =
+| E of (A ->[] C)
 
-let _ = D (C B)
+let _ = E (C B)
 ---
 
+(source_file
+  (def_list
+    (def_data
+      (uid_path
+        (uid))
+      (ctor_decl
+        (uid)))
+    (def_data
+      (uid_path
+        (uid))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid))))
+    (def_data
+      (uid_path
+        (uid))
+      (ctor_decl
+        (uid)
+        (ty_expr_arr
+          (uid_path
+            (uid))
+          (uid_path
+            (uid)))
+        (uid_path
+          (uid))))
+    (def_data
+      (uid_path
+        (uid))
+      (ctor_decl
+        (uid)
+        (ty_expr_arr
+          (uid_path
+            (uid))
+          (ty_expr_app
+            (ty_effect)
+            (uid_path
+              (uid))))))
+    (def_let
+      (wildcard)
+      (ex_app
+        (uid)
+        (ex_app
+          (uid)
+          (uid))))))

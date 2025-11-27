@@ -1,8 +1,7 @@
 ==================
 ok0008_idHandler.fram
 ==================
-let _ = handle id = effect y / r => r y in id ()
-let _ = ()
+let _ = handle id = effect x / r => r x in id ()
 ---
 
 (source_file
@@ -22,7 +21,4 @@ let _ = ()
                 (lid)))))
         (ex_app
           (lid)
-          (ctor_unit))))
-    (def_let
-      (wildcard)
-      (ctor_unit))))
+          (ctor_unit))))))

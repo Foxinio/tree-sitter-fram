@@ -1,0 +1,39 @@
+==================
+ok0037_checkScheme.fram
+==================
+let foo (f : (({type X} -> X) -> _) -> _) =
+  f (fn (x : {type Y} -> _) => x)
+---
+
+(source_file
+  (def_list
+    (def_let
+      (ex_app
+        (lid)
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_arr
+              (ty_expr_arr
+                (ty_expr_arr
+                  (ty_record
+                    (ty_fld_anontype
+                      (uid_path
+                        (uid))))
+                  (uid_path
+                    (uid)))
+                (ty_expr_wildcard))
+              (ty_expr_wildcard)))))
+      (ex_app
+        (lid)
+        (ex_fn
+          (ex_annot
+            (lid)
+            (type_annot
+              (ty_expr_arr
+                (ty_record
+                  (ty_fld_anontype
+                    (uid_path
+                      (uid))))
+                (ty_expr_wildcard))))
+          (lid))))))

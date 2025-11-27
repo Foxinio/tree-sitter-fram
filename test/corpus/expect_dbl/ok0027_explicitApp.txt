@@ -6,3 +6,19 @@ let foo = ~n
 let _ = foo { ~n = () }
 ---
 
+(source_file
+  (def_list
+    (def_parameter
+      (fld_name
+        (tlid)))
+    (def_let
+      (lid)
+      (tlid))
+    (def_let
+      (wildcard)
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_nameval
+            (tlid)
+            (ctor_unit)))))))

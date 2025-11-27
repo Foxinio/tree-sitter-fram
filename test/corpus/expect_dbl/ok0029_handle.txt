@@ -13,3 +13,42 @@ let tauto _ =
   in test {~f=x} f
 ---
 
+(source_file
+  (def_list
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (lid))
+    (def_parameter
+      (fld_name
+        (tlid)))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (tlid)
+          (ctor_unit))))
+    (def_let
+      (ex_app
+        (lid)
+        (wildcard))
+      (ex_def_list
+        (def_list
+          (def_handle
+            (lid)
+            (ex_effect
+              (lid)
+              (resumption
+                (lid))
+              (ctor_unit))))
+        (ex_app
+          (lid)
+          (ex_record
+            (fld_nameval
+              (tlid)
+              (lid)))
+          (lid))))))

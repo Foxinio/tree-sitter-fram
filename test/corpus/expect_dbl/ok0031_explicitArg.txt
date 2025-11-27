@@ -6,3 +6,27 @@ let f {~f=g} = g
 let h ~x = f ()
 ---
 
+(source_file
+  (def_list
+    (def_let
+      (ex_app
+        (tlid)
+        (ex_record
+          (fld_name
+            (tlid))))
+      (tlid))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_nameval
+            (tlid)
+            (lid))))
+      (lid))
+    (def_let
+      (ex_app
+        (lid)
+        (tlid))
+      (ex_app
+        (lid)
+        (ctor_unit)))))

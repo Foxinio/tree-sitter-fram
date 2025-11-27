@@ -4,3 +4,10 @@ ok0024_letFunc.fram
 let id x = x
 ---
 
+(source_file
+  (def_list
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (lid))))

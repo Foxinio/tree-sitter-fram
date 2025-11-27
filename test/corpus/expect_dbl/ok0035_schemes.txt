@@ -6,3 +6,30 @@ data T X = T of (({type Y} -> Y) -> X)
 let foo = T (fn em => em)
 ---
 
+(source_file
+  (def_list
+    (def_data
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (ty_expr_arr
+          (ty_expr_arr
+            (ty_record
+              (ty_fld_anontype
+                (uid_path
+                  (uid))))
+            (uid_path
+              (uid)))
+          (uid_path
+            (uid)))))
+    (def_let
+      (lid)
+      (ex_app
+        (uid)
+        (ex_fn
+          (lid)
+          (lid))))))

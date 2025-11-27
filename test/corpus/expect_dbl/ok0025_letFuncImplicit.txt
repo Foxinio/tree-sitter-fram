@@ -11,3 +11,25 @@ let _ =
   foo ()
 ---
 
+(source_file
+  (def_list
+    (def_parameter
+      (fld_name
+        (tlid)))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (tlid)
+        (lid)))
+    (def_let
+      (ex_app
+        (tlid)
+        (lid))
+      (lid))
+    (def_let
+      (wildcard)
+      (ex_app
+        (lid)
+        (ctor_unit)))))

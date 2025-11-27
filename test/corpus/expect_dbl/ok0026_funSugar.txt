@@ -6,3 +6,38 @@ let bar g = foo (fn x y => g y x) ()
 let _ = bar (fn x y => x)
 ---
 
+(source_file
+  (def_list
+    (def_let
+      (ex_app
+        (lid)
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (lid)
+        (lid)))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_fn
+          (ex_app
+            (lid)
+            (lid))
+          (ex_app
+            (lid)
+            (lid)
+            (lid)))
+        (ctor_unit)))
+    (def_let
+      (wildcard)
+      (ex_app
+        (lid)
+        (ex_fn
+          (ex_app
+            (lid)
+            (lid))
+          (lid))))))

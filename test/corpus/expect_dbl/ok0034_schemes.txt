@@ -7,3 +7,39 @@ data A = A of (({~x : Bool} -> Bool) ->[] Bool)
 let foo (A g) = g ~x
 ---
 
+(source_file
+  (def_list
+    (def_data
+      (uid_path
+        (uid))
+      (ctor_decl
+        (uid))
+      (ctor_decl
+        (uid)))
+    (def_data
+      (uid_path
+        (uid))
+      (ctor_decl
+        (uid)
+        (ty_expr_arr
+          (ty_expr_arr
+            (ty_record
+              (ty_fld_nameval
+                (tlid)
+                (uid_path
+                  (uid))))
+            (uid_path
+              (uid)))
+          (ty_expr_app
+            (ty_effect)
+            (uid_path
+              (uid))))))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_app
+          (uid)
+          (lid)))
+      (ex_app
+        (lid)
+        (tlid)))))

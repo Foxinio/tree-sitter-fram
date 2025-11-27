@@ -1,6 +1,6 @@
 .direnv
-log.html
-test.fram
+*.fram
+*.html
 # Rust artifacts
 target/
 
