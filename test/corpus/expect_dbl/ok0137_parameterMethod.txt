@@ -12,3 +12,51 @@ parameter method foo : U -> U
 let baz (x : U) = bar x
 ---
 
+(source_file
+  (def_list
+    (def_parameter
+      (fld_type
+        (uid)))
+    (def_parameter
+      (fld_nameannot
+        (method
+          (lid))
+        (ty_expr_arr
+          (uid_path
+            (uid))
+          (uid_path
+            (uid)))))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_annot
+          (lid)
+          (type_annot
+            (uid_path
+              (uid)))))
+      (ex_method
+        (lid)
+        (lid)))
+    (def_parameter
+      (fld_type
+        (uid)))
+    (def_parameter
+      (fld_nameannot
+        (method
+          (lid))
+        (ty_expr_arr
+          (uid_path
+            (uid))
+          (uid_path
+            (uid)))))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_annot
+          (lid)
+          (type_annot
+            (uid_path
+              (uid)))))
+      (ex_app
+        (lid)
+        (lid)))))

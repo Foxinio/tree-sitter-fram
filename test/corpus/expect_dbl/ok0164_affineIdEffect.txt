@@ -1,0 +1,47 @@
+==================
+ok0164_affineIdEffect.fram
+==================
+data Id E = { id : {X} -> X ->[aff E] X }
+
+let hId =
+  handler Id { id = aff effect x => resume x } end
+---
+
+(source_file
+  (def_list
+    (def_data_record
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ty_record
+        (ty_fld_nameval
+          (lid)
+          (ty_expr_arr
+            (ty_record
+              (ty_fld_type
+                (uid)))
+            (ty_expr_arr
+              (uid_path
+                (uid))
+              (ty_expr_app
+                (ty_effect
+                  (ty_expr_aff
+                    (uid_path
+                      (uid))))
+                (uid_path
+                  (uid))))))))
+    (def_let
+      (lid)
+      (ex_handler
+        (ex_app
+          (uid)
+          (ex_record
+            (fld_nameval
+              (lid)
+              (ex_effect
+                (lid)
+                (ex_app
+                  (lid)
+                  (lid))))))))))

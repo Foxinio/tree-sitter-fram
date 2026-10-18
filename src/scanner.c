@@ -1,187 +1,129 @@
 #include "tree_sitter/parser.h"
 #include "tree_sitter/alloc.h"
-#include <ctype.h>
 #include <stdint.h>
 #include <string.h>
 
 enum TokenType {
-  BLOCK_COMMENT_START,
-  BLOCK_COMMENT_TAG,
-  BLOCK_COMMENT_REST,
-  BLOCK_COMMENT_UNFINISHED,
-  ERROR_SENTINEL,
+    BLOCK_COMMENT,
+    BLOCK_COMMENT_UNFINISHED,
+    ERROR_SENTINEL,
+    STRING_CONTENT,
+    OP_0, OP_20, OP_30, OP_40, OP_50, OP_60, OP_70, OP_80, OP_90, OP_100,
 };
 
-#define MAX_TAG_LENGTH 30
-
-typedef struct Scanner {
-    // null-terminated array of unicode code points
-    int32_t tag[MAX_TAG_LENGTH + 1];
-    bool tagOpen;
-    bool commentOpen;
-} Scanner;
-
-void *tree_sitter_fram_external_scanner_create() {
-    return ts_calloc(1, sizeof(Scanner));
-}
-
-void tree_sitter_fram_external_scanner_destroy(void *payload) {
-    ts_free(payload);
-}
-
+void *tree_sitter_fram_external_scanner_create(void) { return NULL; }
+void tree_sitter_fram_external_scanner_destroy(void *payload) { (void)payload; }
 unsigned tree_sitter_fram_external_scanner_serialize(void *payload, char *buffer) {
-    memcpy(buffer, payload, sizeof(Scanner));
-    return sizeof(Scanner);
-};
-
-void tree_sitter_fram_external_scanner_deserialize(void *payload, char *buffer, unsigned length) {
-    Scanner *scanner = (Scanner *)payload;
-    // tree-sitter requires us to zero-initialize the scanner regardless of buffer contents
-    scanner->tag[0] = 0;
-    scanner->tagOpen = false;
-    scanner->commentOpen = false;
-
-    // if there actually is deserialization data, just memcpy it
-    if(length == sizeof(Scanner)) {
-        memcpy(payload, buffer, sizeof(Scanner));
-    }
-
-};
-
-static int tag_length(int32_t tag[MAX_TAG_LENGTH + 1]) {
-    int result = 0;
-    for(; result < MAX_TAG_LENGTH + 1; result++) {
-        if(tag[result] == 0) {
-            return result;
-        }
-    }
-    return result;
+    (void)payload;
+    (void)buffer;
+    return 0;
+}
+void tree_sitter_fram_external_scanner_deserialize(void *payload, const char *buffer, unsigned length) {
+    (void)payload;
+    (void)buffer;
+    (void)length;
 }
 
-static inline void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
+static void advance(TSLexer *lexer) { lexer->advance(lexer, false); }
 
-static inline void skip(TSLexer *lexer) { lexer->advance(lexer, true); }
-
-static inline bool is_whitespace(int codepoint) {
-    return codepoint < 256 && isspace(codepoint);
+static bool is_tag_char(int32_t c) {
+    return c > 32 && c != 127 && c != '{' && c != '}';
 }
 
-static bool scan_block_comment_start(Scanner *scanner, TSLexer *lexer) {
-    // consume {
-    advance(lexer);
-    // expect #
-    if(lexer->lookahead != '#') {
-        return false;
-    }
-    // consume #
-    advance(lexer);
+static bool is_op_char(int32_t c) {
+    return c > 0 && c < 128 && strchr("<>&$?!@^+~*%;,=|:./-", c) != NULL;
+}
 
-    scanner->tagOpen = true;
-    scanner->commentOpen = true;
-    lexer->result_symbol = BLOCK_COMMENT_START;
+static bool scan_operator(TSLexer *lexer, const bool *valid_symbols) {
+    int32_t first = lexer->lookahead, second = 0, third = 0;
+    size_t length = 0;
+    while (is_op_char(lexer->lookahead)) {
+        if (length == 1) second = lexer->lookahead;
+        if (length == 2) third = lexer->lookahead;
+        length++;
+        advance(lexer);
+    }
+    // Reserved punctuation must stay reserved even where only an operator fits.
+    if (length == 1 && strchr("?:~|=,./", first)) return false;
+    if (length == 1 && first == '@' && lexer->lookahead == '{') return false;
+    if (length == 2 && ((first == '-' && second == '>') ||
+        (first == '=' && second == '>') || (first == '>' && second == '.') ||
+        (first == ';' && second == ';'))) return false;
+    if (length == 3 && first == '-' && second == '>' && third == '>') return false;
+    enum TokenType token;
+    if (first == ';') token = OP_0;
+    else if ((first == '<' && second == '-') || (first == ':' && second == '=')) token = OP_20;
+    else if (first == ',') token = OP_30;
+    else if (first == '|' && second == '|') token = OP_40;
+    else if (first == '&' && second == '&') token = OP_50;
+    else if (strchr("!=<>|&$?", first)) token = OP_60;
+    else if (strchr("@:^", first)) token = OP_70;
+    else if (strchr("+-~", first)) token = OP_80;
+    else if (first == '*' && second == '*') token = OP_100;
+    else token = OP_90;
+    if (!valid_symbols[token]) return false;
+    lexer->result_symbol = token;
     return true;
-
 }
-   
-
-
-static int ringbuf_match(int *ringbuf, int *pattern, int rindex, int rlen) {
-    rindex = (rindex + 1) % rlen;
-    for(int i=0; i < rlen; i++) {
-        if(pattern[i] != ringbuf[(i + rindex) % rlen]){
-            return i;
-        }
-    }
-    return rlen;
-}
-
 
 bool tree_sitter_fram_external_scanner_scan(void *payload, TSLexer *lexer, const bool *valid_symbols) {
-    Scanner *scanner = (Scanner *)payload;
-
-
-    // if we are in recovery mode and a comment is open, eat till the end of file
-    if(valid_symbols[ERROR_SENTINEL]) {
-        // else just bail
-        if(!scanner->commentOpen) {
-            return false;
-        }
-
-        while(!lexer->eof(lexer)) {
+    (void)payload;
+    if (valid_symbols[ERROR_SENTINEL]) return false;
+    if (valid_symbols[STRING_CONTENT]) {
+        bool consumed = false;
+        while (!lexer->eof(lexer) && lexer->lookahead != '"' && lexer->lookahead != '\\') {
             advance(lexer);
+            consumed = true;
         }
-        lexer->result_symbol = BLOCK_COMMENT_UNFINISHED;
-        return false;
-    }
-
-    // skip whitespace if not trying to parse a tag
-    // no support for non-ASCII whitespace
-    while(lexer->lookahead < 256 && isspace(lexer->lookahead) && !scanner->tagOpen){
-        skip(lexer);
-    }
-
-    if(valid_symbols[BLOCK_COMMENT_START] &&
-        (lexer->lookahead == '{')) {
-        return scan_block_comment_start(scanner, lexer);
-    }
-
-
-    if(!(valid_symbols[BLOCK_COMMENT_TAG] || valid_symbols[BLOCK_COMMENT_REST])) {
-        return false;
-    }
-
-
-    // try to read tag
-    int i=0;
-    if(scanner->tagOpen){
-        for(; i < MAX_TAG_LENGTH; i++) {
-            if(lexer->eof(lexer) || is_whitespace(lexer->lookahead)) {
-                break;
-            }
-            scanner->tag[i] = lexer->lookahead;
-            advance(lexer);
-        }
-        scanner->tag[i] = 0;
-        scanner->tagOpen = false;
-    }
-
-    if(i > 0) {
-        lexer->result_symbol = BLOCK_COMMENT_TAG;
-        return true;
-    }
-       
-    // yes, I use O(mn) pattern search
-    // sue me
-    int len = tag_length(scanner->tag);
-    // pattern is '<tag>#}'
-    // make a ringbuffer of same length as pattern
-    int rlen = len + 2;
-    int32_t ringbuf[rlen];
-    memset(ringbuf, 0, rlen);
-    int ri = 0;
-
-    // prep pattern
-    int32_t pattern[rlen];
-    memcpy(pattern, scanner->tag, sizeof(int32_t) * len);
-    pattern[len] = '#';
-    pattern[len + 1] = '}';
-
-
-    // search loop
-    while(true) {
-        if(lexer->eof(lexer)) {
-            lexer->result_symbol = BLOCK_COMMENT_UNFINISHED;
+        if (consumed) {
+            lexer->result_symbol = STRING_CONTENT;
             return true;
         }
-        ringbuf[ri] = lexer->lookahead;
+    }
+    while (lexer->lookahead == ' ' || (lexer->lookahead >= '\t' && lexer->lookahead <= '\r')) {
+        lexer->advance(lexer, true);
+    }
+    if (is_op_char(lexer->lookahead)) {
+        bool operator_valid = false;
+        for (unsigned i = OP_0; i <= OP_100; i++) operator_valid |= valid_symbols[i];
+        return operator_valid && scan_operator(lexer, valid_symbols);
+    }
+    if (!valid_symbols[BLOCK_COMMENT]) return false;
+    if (lexer->lookahead != '{') return false;
+    advance(lexer);
+    if (lexer->lookahead != '#') return false;
+    advance(lexer);
+
+    // Scan each comment as one token so arbitrary tags need no serialized state.
+    size_t capacity = 32, length = 0;
+    int32_t *tag = ts_malloc(capacity * sizeof(int32_t));
+    while (!lexer->eof(lexer) && is_tag_char(lexer->lookahead)) {
+        if (length == capacity) {
+            capacity *= 2;
+            tag = ts_realloc(tag, capacity * sizeof(int32_t));
+        }
+        tag[length++] = lexer->lookahead;
         advance(lexer);
-        int matching = ringbuf_match(ringbuf, pattern, ri, rlen);
-        ri = (ri + 1) % rlen;
-        if(matching == rlen) {
-            scanner->tagOpen = false;
-            scanner->commentOpen = false;
-            lexer->result_symbol = BLOCK_COMMENT_REST;
-            return true;
+    }
+    size_t width = length + 2;
+    int32_t *window = ts_calloc(width, sizeof(int32_t));
+    size_t index = 0, consumed = 0;
+    lexer->result_symbol = BLOCK_COMMENT_UNFINISHED;
+    while (!lexer->eof(lexer)) {
+        int32_t c = lexer->lookahead;
+        window[index] = c;
+        index = (index + 1) % width;
+        if (consumed < width) consumed++;
+        advance(lexer);
+        if (c != '}' || consumed < width || window[(index + length) % width] != '#') continue;
+        size_t matched = 0;
+        while (matched < length && window[(index + matched) % width] == tag[matched]) matched++;
+        if (matched == length) {
+            lexer->result_symbol = BLOCK_COMMENT;
+            break;
         }
     }
+    ts_free(window);
+    ts_free(tag);
+    return true;
 }

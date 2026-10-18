@@ -133,7 +133,8 @@ data rec Fix (F : type -> type) = Fix of F (Fix F)
         (uid_path
           (uid))
         (ty_kind_annot
-          (uid)
+          (uid_path
+            (uid))
           (kind_arrow
             (kind_type)
             (kind_type))))

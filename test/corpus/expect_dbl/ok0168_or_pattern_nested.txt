@@ -1,0 +1,102 @@
+==================
+ok0168_or_pattern_nested.fram
+==================
+data Option A = None | Some of A
+data Result E A = Error of E | Ok of A
+
+let test_nested_option x =
+  match x with
+  | None | Some None => "none or some none"
+  | Some (Some _) => "some some"
+  end
+
+let test_result_option x =
+  match x with
+  | Ok None | Error None => "none value"
+  | Ok (Some _) | Error (Some _) => "some value"
+  end
+---
+
+(source_file
+  (def_list
+    (def_data
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid))))
+    (def_data
+      (ty_expr_app
+        (ty_expr_app
+          (uid_path
+            (uid))
+          (uid_path
+            (uid)))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_match
+        (lid)
+        (match_clause
+          (ex_or_pattern
+            (uid)
+            (ex_app
+              (uid)
+              (uid)))
+          (str
+            (string_content)))
+        (match_clause
+          (ex_app
+            (uid)
+            (ex_app
+              (uid)
+              (wildcard)))
+          (str
+            (string_content)))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_match
+        (lid)
+        (match_clause
+          (ex_or_pattern
+            (ex_app
+              (uid)
+              (uid))
+            (ex_app
+              (uid)
+              (uid)))
+          (str
+            (string_content)))
+        (match_clause
+          (ex_or_pattern
+            (ex_app
+              (uid)
+              (ex_app
+                (uid)
+                (wildcard)))
+            (ex_app
+              (uid)
+              (ex_app
+                (uid)
+                (wildcard))))
+          (str
+            (string_content)))))))

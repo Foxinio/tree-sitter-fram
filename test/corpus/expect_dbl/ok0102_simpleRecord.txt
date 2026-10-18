@@ -8,3 +8,45 @@ data T = { x : A, y : A }
 let swap (v : T) = T { x = v.y, y = v.x }
 ---
 
+(source_file
+  (def_list
+    (def_data
+      (uid_path
+        (uid))
+      (ctor_decl
+        (uid))
+      (ctor_decl
+        (uid)))
+    (def_data_record
+      (uid_path
+        (uid))
+      (ty_record
+        (ty_fld_nameval
+          (lid)
+          (uid_path
+            (uid)))
+        (ty_fld_nameval
+          (lid)
+          (uid_path
+            (uid)))))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_annot
+          (lid)
+          (type_annot
+            (uid_path
+              (uid)))))
+      (ex_app
+        (uid)
+        (ex_record
+          (fld_nameval
+            (lid)
+            (ex_method
+              (lid)
+              (lid)))
+          (fld_nameval
+            (lid)
+            (ex_method
+              (lid)
+              (lid))))))))

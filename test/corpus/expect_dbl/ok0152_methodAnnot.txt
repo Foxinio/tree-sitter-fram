@@ -1,0 +1,104 @@
+==================
+ok0152_methodAnnot.fram
+==================
+data T X = C of X
+
+method get1 {X} (c : T X) : X =
+  let (C x) = c in x
+
+method get2 {X} (c : T X) : total X =
+  let (C x) = c in x
+
+method get3 {X} (c : T X) : [] X =
+  let (C x) = c in x
+---
+
+(source_file
+  (def_list
+    (def_data
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid))))
+    (def_method
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_type
+            (uid)))
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_app
+              (uid_path
+                (uid))
+              (uid_path
+                (uid))))))
+      (type_annot
+        (uid_path
+          (uid)))
+      (ex_def_list
+        (def_list
+          (def_let
+            (ex_app
+              (uid)
+              (lid))
+            (lid)))
+        (lid)))
+    (def_method
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_type
+            (uid)))
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_app
+              (uid_path
+                (uid))
+              (uid_path
+                (uid))))))
+      (type_annot
+        (uid_path
+          (uid)))
+      (ex_def_list
+        (def_list
+          (def_let
+            (ex_app
+              (uid)
+              (lid))
+            (lid)))
+        (lid)))
+    (def_method
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_type
+            (uid)))
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_app
+              (uid_path
+                (uid))
+              (uid_path
+                (uid))))))
+      (type_annot
+        (ty_expr_app
+          (ty_effect)
+          (uid_path
+            (uid))))
+      (ex_def_list
+        (def_list
+          (def_let
+            (ex_app
+              (uid)
+              (lid))
+            (lid)))
+        (lid)))))

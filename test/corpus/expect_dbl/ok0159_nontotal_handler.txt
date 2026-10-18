@@ -1,0 +1,59 @@
+==================
+ok0159_nontotal_handler.fram
+==================
+let hId = handler effect x => resume x end
+
+handle (id : Unit ->> Unit) with hId
+
+let hConst x = handler id (); effect _ => resume x end
+
+let x = handle get with hConst 42 in get ()
+---
+
+(source_file
+  (def_list
+    (def_let
+      (lid)
+      (ex_handler
+        (ex_effect
+          (lid)
+          (ex_app
+            (lid)
+            (lid)))))
+    (def_handle_with
+      (ex_annot
+        (lid)
+        (type_annot
+          (ty_expr_arr
+            (uid_path
+              (uid))
+            (uid_path
+              (uid)))))
+      (lid))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_handler
+        (ex_binop
+          (ex_app
+            (lid)
+            (ctor_unit))
+          (op)
+          (ex_effect
+            (wildcard)
+            (ex_app
+              (lid)
+              (lid))))))
+    (def_let
+      (lid)
+      (ex_def_list
+        (def_list
+          (def_handle_with
+            (lid)
+            (ex_app
+              (lid)
+              (num))))
+        (ex_app
+          (lid)
+          (ctor_unit))))))

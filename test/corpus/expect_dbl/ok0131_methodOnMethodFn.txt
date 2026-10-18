@@ -8,3 +8,49 @@ method neg (self : Int) = self
 let baz = (-42).neg
 ---
 
+(source_file
+  (def_list
+    (def_parameter
+      (fld_type
+        (uid)))
+    (def_parameter
+      (fld_type
+        (uid)))
+    (def_let
+      (ex_app
+        (op)
+        (ex_record
+          (fld_nameannot
+            (method
+              (lid))
+            (ty_expr_arr
+              (uid_path
+                (uid))
+              (ty_expr_app
+                (ty_effect)
+                (uid_path
+                  (uid))))))
+        (ex_annot
+          (lid)
+          (type_annot
+            (uid_path
+              (uid)))))
+      (ex_method
+        (lid)
+        (lid)))
+    (def_method
+      (ex_app
+        (lid)
+        (ex_annot
+          (lid)
+          (type_annot
+            (uid_path
+              (uid)))))
+      (lid))
+    (def_let
+      (lid)
+      (ex_method
+        (ex_unop
+          (op)
+          (num))
+        (lid)))))

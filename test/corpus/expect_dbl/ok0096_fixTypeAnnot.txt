@@ -4,3 +4,26 @@ ok0096_fixTypeAnnot.fram
 data rec Fix (F : type -> type) = Fix of F (Fix F)
 ---
 
+(source_file
+  (def_list
+    (def_data
+      (rec)
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (ty_kind_annot
+          (uid_path
+            (uid))
+          (kind_arrow
+            (kind_type)
+            (kind_type))))
+      (ctor_decl
+        (uid)
+        (ty_expr_app
+          (uid_path
+            (uid))
+          (ty_expr_app
+            (uid_path
+              (uid))
+            (uid_path
+              (uid))))))))

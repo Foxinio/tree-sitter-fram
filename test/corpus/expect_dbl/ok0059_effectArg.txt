@@ -8,3 +8,33 @@ let id2 {E = X} = id {E = X}
 let hId = handler id2 end
 ---
 
+(source_file
+  (def_list
+    (def_let
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_type
+            (uid)
+            (kind_effect)))
+        (lid))
+      (lid))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_typeval
+            (uid)
+            (uid_path
+              (uid)))))
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_typeval
+            (uid)
+            (uid_path
+              (uid))))))
+    (def_let
+      (lid)
+      (ex_handler
+        (lid)))))

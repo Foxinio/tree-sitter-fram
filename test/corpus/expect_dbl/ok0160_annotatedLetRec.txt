@@ -1,0 +1,147 @@
+==================
+ok0160_annotatedLetRec.fram
+==================
+data rec List X = [] | (::) of X, List X
+
+let rec map {A,B,E} (f : A ->[E] B) (xs : List A) :[E] List B =
+  match xs with
+  | [] => []
+  | x :: xs => f x :: map f xs
+  end
+
+let rec append {A} (xs : List A) : total List A ->[] List A =
+  fn ys =>
+  match xs with
+  | [] => ys
+  | x :: xs => x :: append xs ys
+  end
+---
+
+(source_file
+  (def_list
+    (def_data
+      (rec)
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (ctor_nil))
+      (ctor_decl
+        (op)
+        (uid_path
+          (uid))
+        (ty_expr_app
+          (uid_path
+            (uid))
+          (uid_path
+            (uid)))))
+    (def_let
+      (rec)
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_type
+            (uid))
+          (fld_type
+            (uid))
+          (fld_type
+            (uid)))
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_arr
+              (uid_path
+                (uid))
+              (ty_expr_app
+                (ty_effect
+                  (uid_path
+                    (uid)))
+                (uid_path
+                  (uid))))))
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_app
+              (uid_path
+                (uid))
+              (uid_path
+                (uid))))))
+      (type_annot
+        (ty_expr_app
+          (ty_expr_app
+            (ty_effect
+              (uid_path
+                (uid)))
+            (uid_path
+              (uid)))
+          (uid_path
+            (uid))))
+      (ex_match
+        (lid)
+        (match_clause
+          (ctor_nil)
+          (ctor_nil))
+        (match_clause
+          (ex_binop
+            (lid)
+            (op)
+            (lid))
+          (ex_binop
+            (ex_app
+              (lid)
+              (lid))
+            (op)
+            (ex_app
+              (lid)
+              (lid)
+              (lid))))))
+    (def_let
+      (rec)
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_type
+            (uid)))
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_app
+              (uid_path
+                (uid))
+              (uid_path
+                (uid))))))
+      (type_annot
+        (ty_expr_arr
+          (ty_expr_app
+            (uid_path
+              (uid))
+            (uid_path
+              (uid)))
+          (ty_expr_app
+            (ty_expr_app
+              (ty_effect)
+              (uid_path
+                (uid)))
+            (uid_path
+              (uid)))))
+      (ex_fn
+        (lid)
+        (ex_match
+          (lid)
+          (match_clause
+            (ctor_nil)
+            (lid))
+          (match_clause
+            (ex_binop
+              (lid)
+              (op)
+              (lid))
+            (ex_binop
+              (lid)
+              (op)
+              (ex_app
+                (lid)
+                (lid)
+                (lid)))))))))

@@ -1,0 +1,63 @@
+==================
+ok0146_attributes.fram
+==================
+
+# no attributes
+let x = 10
+
+# pub
+pub let y = 10
+
+# empty attributes + pub
+@{}
+pub let z = 20
+
+# test ignores this statement
+@{test}
+pub let w = 20 + "sdadad"
+
+@{test a1 a2, test a3 a4 }
+let u = 30
+---
+
+(source_file
+  (line_comment)
+  (def_list
+    (def_let
+      (lid)
+      (num))
+    (line_comment)
+    (def_let
+      (pub)
+      (lid)
+      (num))
+    (line_comment)
+    (attributes)
+    (def_let
+      (pub)
+      (lid)
+      (num))
+    (line_comment)
+    (attributes
+      (attribute
+        (lid)))
+    (def_let
+      (pub)
+      (lid)
+      (ex_binop
+        (num)
+        (op)
+        (str
+          (string_content))))
+    (attributes
+      (attribute
+        (lid)
+        (lid)
+        (lid))
+      (attribute
+        (lid)
+        (lid)
+        (lid)))
+    (def_let
+      (lid)
+      (num))))

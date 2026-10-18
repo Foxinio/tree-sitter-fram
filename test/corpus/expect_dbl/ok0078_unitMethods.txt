@@ -6,3 +6,15 @@ method unit () = ()
 let _ = ().unit
 ---
 
+(source_file
+  (def_list
+    (def_method
+      (ex_app
+        (lid)
+        (ctor_unit))
+      (ctor_unit))
+    (def_let
+      (wildcard)
+      (ex_method
+        (ctor_unit)
+        (lid)))))

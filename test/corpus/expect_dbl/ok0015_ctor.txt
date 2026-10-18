@@ -10,10 +10,10 @@ data B =
 data C =
 | C of (A -> B), A
 
-data E =
-| E of (A ->[] C)
+data D =
+| D of (A ->[] C)
 
-let _ = E (C B)
+let _ = D (C B)
 ---
 
 (source_file

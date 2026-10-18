@@ -6,3 +6,32 @@ let id {X=Y} (x : Y) = x
 let id2 {Z} = id {X=Z}
 ---
 
+(source_file
+  (def_list
+    (def_let
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_typeval
+            (uid)
+            (uid_path
+              (uid))))
+        (ex_annot
+          (lid)
+          (type_annot
+            (uid_path
+              (uid)))))
+      (lid))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_type
+            (uid))))
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_typeval
+            (uid)
+            (uid_path
+              (uid))))))))

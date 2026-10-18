@@ -1,0 +1,111 @@
+==================
+ok0156_handlerfnComplex.fram
+==================
+data Exn E = { raise : {X} -> Unit ->[E] X }
+
+data BT E =
+  { flip : Unit ->[E] Bool
+  , fail : {X} -> Unit ->[E] X
+  }
+
+let hBT =
+  handlerfn
+    handle flip = effect () => resume True; resume False
+    handle exn = Exn { effect raise () = () }
+    in
+    BT { flip, fail = exn.raise }
+  end
+---
+
+(source_file
+  (def_list
+    (def_data_record
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ty_record
+        (ty_fld_nameval
+          (lid)
+          (ty_expr_arr
+            (ty_record
+              (ty_fld_type
+                (uid)))
+            (ty_expr_arr
+              (uid_path
+                (uid))
+              (ty_expr_app
+                (ty_effect
+                  (uid_path
+                    (uid)))
+                (uid_path
+                  (uid))))))))
+    (def_data_record
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ty_record
+        (ty_fld_nameval
+          (lid)
+          (ty_expr_arr
+            (uid_path
+              (uid))
+            (ty_expr_app
+              (ty_effect
+                (uid_path
+                  (uid)))
+              (uid_path
+                (uid)))))
+        (ty_fld_nameval
+          (lid)
+          (ty_expr_arr
+            (ty_record
+              (ty_fld_type
+                (uid)))
+            (ty_expr_arr
+              (uid_path
+                (uid))
+              (ty_expr_app
+                (ty_effect
+                  (uid_path
+                    (uid)))
+                (uid_path
+                  (uid))))))))
+    (def_let
+      (lid)
+      (ex_handlerfn
+        (def_list
+          (def_handle
+            (lid)
+            (ex_effect
+              (ctor_unit)
+              (ex_binop
+                (ex_app
+                  (lid)
+                  (uid))
+                (op)
+                (ex_app
+                  (lid)
+                  (uid)))))
+          (def_handle
+            (lid)
+            (ex_app
+              (uid)
+              (ex_record
+                (fld_effect_fn
+                  (lid)
+                  (ctor_unit)
+                  (ctor_unit))))))
+        (ex_app
+          (uid)
+          (ex_record
+            (fld_name
+              (lid))
+            (fld_nameval
+              (lid)
+              (ex_method
+                (lid)
+                (lid)))))))))

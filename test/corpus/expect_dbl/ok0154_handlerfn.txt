@@ -1,0 +1,207 @@
+==================
+ok0154_handlerfn.fram
+==================
+data rec List X =
+  | []
+  | (::) of X, List X
+
+data ST E X =
+  { get : Unit ->[E] X
+  , put : X ->[E] Unit
+  }
+
+let hST st0 =
+  handler ST
+    { effect get () = fn st => resume st st
+    , effect put st = fn _  => resume () st
+    }
+  return  x => fn _ => x
+  finally c => c st0
+  end
+
+data Writer E X =
+  { tell : X ->[E] Unit
+  }
+
+let hWriter =
+  handlerfn
+    handle st with hST []
+    in
+    Writer { tell x = st.put (x :: st.get ()) }
+  return () => st.get ()
+  end
+
+let _ : List Int =
+  handle wr with hWriter in
+  wr.tell 1;
+  wr.tell 2
+---
+
+(source_file
+  (def_list
+    (def_data
+      (rec)
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (ctor_nil))
+      (ctor_decl
+        (op)
+        (uid_path
+          (uid))
+        (ty_expr_app
+          (uid_path
+            (uid))
+          (uid_path
+            (uid)))))
+    (def_data_record
+      (ty_expr_app
+        (ty_expr_app
+          (uid_path
+            (uid))
+          (uid_path
+            (uid)))
+        (uid_path
+          (uid)))
+      (ty_record
+        (ty_fld_nameval
+          (lid)
+          (ty_expr_arr
+            (uid_path
+              (uid))
+            (ty_expr_app
+              (ty_effect
+                (uid_path
+                  (uid)))
+              (uid_path
+                (uid)))))
+        (ty_fld_nameval
+          (lid)
+          (ty_expr_arr
+            (uid_path
+              (uid))
+            (ty_expr_app
+              (ty_effect
+                (uid_path
+                  (uid)))
+              (uid_path
+                (uid)))))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_handler
+        (ex_app
+          (uid)
+          (ex_record
+            (fld_effect_fn
+              (lid)
+              (ctor_unit)
+              (ex_fn
+                (lid)
+                (ex_app
+                  (lid)
+                  (lid)
+                  (lid))))
+            (fld_effect_fn
+              (lid)
+              (lid)
+              (ex_fn
+                (wildcard)
+                (ex_app
+                  (lid)
+                  (ctor_unit)
+                  (lid))))))
+        (h_return
+          (lid)
+          (ex_fn
+            (wildcard)
+            (lid)))
+        (h_finally
+          (lid)
+          (ex_app
+            (lid)
+            (lid)))))
+    (def_data_record
+      (ty_expr_app
+        (ty_expr_app
+          (uid_path
+            (uid))
+          (uid_path
+            (uid)))
+        (uid_path
+          (uid)))
+      (ty_record
+        (ty_fld_nameval
+          (lid)
+          (ty_expr_arr
+            (uid_path
+              (uid))
+            (ty_expr_app
+              (ty_effect
+                (uid_path
+                  (uid)))
+              (uid_path
+                (uid)))))))
+    (def_let
+      (lid)
+      (ex_handlerfn
+        (def_list
+          (def_handle_with
+            (lid)
+            (ex_app
+              (lid)
+              (ctor_nil))))
+        (ex_app
+          (uid)
+          (ex_record
+            (fld_fn
+              (lid)
+              (lid)
+              (ex_app
+                (ex_method
+                  (lid)
+                  (lid))
+                (ex_binop
+                  (lid)
+                  (op)
+                  (ex_app
+                    (ex_method
+                      (lid)
+                      (lid))
+                    (ctor_unit)))))))
+        (h_return
+          (ctor_unit)
+          (ex_app
+            (ex_method
+              (lid)
+              (lid))
+            (ctor_unit)))))
+    (def_let
+      (wildcard)
+      (type_annot
+        (ty_expr_app
+          (uid_path
+            (uid))
+          (uid_path
+            (uid))))
+      (ex_def_list
+        (def_list
+          (def_handle_with
+            (lid)
+            (lid)))
+        (ex_binop
+          (ex_app
+            (ex_method
+              (lid)
+              (lid))
+            (num))
+          (op)
+          (ex_app
+            (ex_method
+              (lid)
+              (lid))
+            (num)))))))

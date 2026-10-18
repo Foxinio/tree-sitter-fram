@@ -8,3 +8,26 @@ end
 let f (x : M.T) = x
 ---
 
+(source_file
+  (def_list
+    (def_module
+      (uid)
+      (def_list
+        (def_data
+          (data_vis)
+          (uid_path
+            (uid))
+          (ctor_decl
+            (uid))
+          (ctor_decl
+            (uid)))))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_annot
+          (lid)
+          (type_annot
+            (uid_path
+              (uid)
+              (uid)))))
+      (lid))))

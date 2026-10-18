@@ -6,3 +6,38 @@ let bar {X, x : X} = 42
 let _ = foo bar
 ---
 
+(source_file
+  (def_list
+    (def_let
+      (ex_app
+        (lid)
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_arr
+              (ty_record
+                (ty_fld_type
+                  (uid))
+                (ty_fld_nameval
+                  (lid)
+                  (uid_path
+                    (uid))))
+              (uid_path
+                (uid))))))
+      (num))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_type
+            (uid))
+          (fld_nameannot
+            (lid)
+            (uid_path
+              (uid)))))
+      (num))
+    (def_let
+      (wildcard)
+      (ex_app
+        (lid)
+        (lid)))))

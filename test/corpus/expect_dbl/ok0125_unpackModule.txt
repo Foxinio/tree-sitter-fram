@@ -6,3 +6,30 @@ let mk = T { U = Unit }
 let T { module U } = mk
 ---
 
+(source_file
+  (def_list
+    (def_data
+      (uid_path
+        (uid))
+      (ctor_decl
+        (uid)
+        (ty_record
+          (ty_fld_type
+            (uid)))))
+    (def_let
+      (lid)
+      (ex_app
+        (uid)
+        (ex_record
+          (fld_typeval
+            (uid)
+            (uid_path
+              (uid))))))
+    (def_let
+      (ex_app
+        (uid)
+        (ex_record
+          (fld_module
+            (uid_path
+              (uid)))))
+      (lid))))

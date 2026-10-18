@@ -1,0 +1,151 @@
+==================
+ok0174_or_pattern_vars_nested.fram
+==================
+data Option A = None | Some of A
+data Two A = First of A | Second of A
+data Triple = A | B | C
+
+let nested x =
+  match x with
+  | Some (First a | Second a) => Some a
+  | None => None
+  end
+
+let deep x =
+  match x with
+  | Some (Some (First a | Second a)) => Some a
+  | Some None => None
+  | None => None
+  end
+
+let multi_level x =
+  match x with
+  | Some (First (A | B) | Second C) => ()
+  | Some (First C | Second (A | B)) => ()
+  | None => ()
+  end
+---
+
+(source_file
+  (def_list
+    (def_data
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid))))
+    (def_data
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid))))
+    (def_data
+      (uid_path
+        (uid))
+      (ctor_decl
+        (uid))
+      (ctor_decl
+        (uid))
+      (ctor_decl
+        (uid)))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_match
+        (lid)
+        (match_clause
+          (ex_app
+            (uid)
+            (ex_or_pattern
+              (ex_app
+                (uid)
+                (lid))
+              (ex_app
+                (uid)
+                (lid))))
+          (ex_app
+            (uid)
+            (lid)))
+        (match_clause
+          (uid)
+          (uid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_match
+        (lid)
+        (match_clause
+          (ex_app
+            (uid)
+            (ex_app
+              (uid)
+              (ex_or_pattern
+                (ex_app
+                  (uid)
+                  (lid))
+                (ex_app
+                  (uid)
+                  (lid)))))
+          (ex_app
+            (uid)
+            (lid)))
+        (match_clause
+          (ex_app
+            (uid)
+            (uid))
+          (uid))
+        (match_clause
+          (uid)
+          (uid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_match
+        (lid)
+        (match_clause
+          (ex_app
+            (uid)
+            (ex_or_pattern
+              (ex_app
+                (uid)
+                (ex_or_pattern
+                  (uid)
+                  (uid)))
+              (ex_app
+                (uid)
+                (uid))))
+          (ctor_unit))
+        (match_clause
+          (ex_app
+            (uid)
+            (ex_or_pattern
+              (ex_app
+                (uid)
+                (uid))
+              (ex_app
+                (uid)
+                (ex_or_pattern
+                  (uid)
+                  (uid)))))
+          (ctor_unit))
+        (match_clause
+          (uid)
+          (ctor_unit))))))

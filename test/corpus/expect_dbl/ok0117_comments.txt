@@ -42,3 +42,39 @@ let some_code = 42
 let baz = bar
 ---
 
+(source_file
+  (line_comment)
+  (block_comment)
+  (block_comment)
+  (def_list
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (lid))
+    (line_comment)
+    (def_let
+      (lid)
+      (block_comment)
+      (num))
+    (block_comment)
+    (block_comment)
+    (block_comment)
+    (def_let
+      (block_comment)
+      (lid)
+      (num))
+    (line_doc_comment)
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (lid))
+    (block_comment)
+    (def_let
+      (lid)
+      (lid))
+    (block_comment)
+    (def_let
+      (lid)
+      (lid))))

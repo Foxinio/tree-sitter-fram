@@ -7,3 +7,40 @@ let get_x (Vec { x }) = x
 let get_y (Vec { y }) = y
 ---
 
+(source_file
+  (def_list
+    (def_data
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (ty_record
+          (ty_fld_nameval
+            (lid)
+            (uid_path
+              (uid)))
+          (ty_fld_nameval
+            (lid)
+            (uid_path
+              (uid))))))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_app
+          (uid)
+          (ex_record
+            (fld_name
+              (lid)))))
+      (lid))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_app
+          (uid)
+          (ex_record
+            (fld_name
+              (lid)))))
+      (lid))))

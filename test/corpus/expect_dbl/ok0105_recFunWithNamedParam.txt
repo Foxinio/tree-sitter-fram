@@ -4,3 +4,13 @@ ok0105_recFunWithNamedParam.fram
 let rec f {x} = x
 ---
 
+(source_file
+  (def_list
+    (def_let
+      (rec)
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_name
+            (lid))))
+      (lid))))

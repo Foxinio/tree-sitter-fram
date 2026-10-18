@@ -10,3 +10,42 @@ let ~id x = x
 let _ = foo
 ---
 
+(source_file
+  (def_list
+    (def_let
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_nameannot
+            (tlid)
+            (ty_expr_arr
+              (ty_record
+                (ty_fld_anontype
+                  (uid_path
+                    (uid))))
+              (ty_expr_arr
+                (uid_path
+                  (uid))
+                (uid_path
+                  (uid)))))))
+      (ex_app
+        (tlid)
+        (ctor_unit)))
+    (def_let
+      (wildcard)
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_nameval
+            (tlid)
+            (ex_fn
+              (lid)
+              (lid))))))
+    (def_let
+      (ex_app
+        (tlid)
+        (lid))
+      (lid))
+    (def_let
+      (wildcard)
+      (lid))))

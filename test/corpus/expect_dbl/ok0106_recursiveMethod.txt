@@ -12,3 +12,54 @@ rec
 end
 ---
 
+(source_file
+  (def_list
+    (def_rec
+      (rec)
+      (def_list
+        (def_data
+          (ty_expr_app
+            (uid_path
+              (uid))
+            (uid_path
+              (uid)))
+          (ctor_decl
+            (ctor_nil))
+          (ctor_decl
+            (op)
+            (uid_path
+              (uid))
+            (ty_expr_app
+              (uid_path
+                (uid))
+              (uid_path
+                (uid)))))
+        (def_method
+          (ex_app
+            (lid)
+            (ex_annot
+              (lid)
+              (type_annot
+                (ty_expr_app
+                  (uid_path
+                    (uid))
+                  (ty_expr_wildcard))))
+            (lid))
+          (ex_match
+            (lid)
+            (match_clause
+              (ctor_nil)
+              (ctor_nil))
+            (match_clause
+              (ex_binop
+                (lid)
+                (op)
+                (lid))
+              (ex_binop
+                (lid)
+                (op)
+                (ex_app
+                  (ex_method
+                    (lid)
+                    (lid))
+                  (lid))))))))))

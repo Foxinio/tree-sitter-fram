@@ -24,9 +24,8 @@ let _ = bar (fn x y => x)
       (ex_app
         (lid)
         (ex_fn
-          (ex_app
-            (lid)
-            (lid))
+          (lid)
+          (lid)
           (ex_app
             (lid)
             (lid)
@@ -37,7 +36,6 @@ let _ = bar (fn x y => x)
       (ex_app
         (lid)
         (ex_fn
-          (ex_app
-            (lid)
-            (lid))
+          (lid)
+          (lid)
           (lid))))))

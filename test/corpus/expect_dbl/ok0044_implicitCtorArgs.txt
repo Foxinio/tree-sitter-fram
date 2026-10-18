@@ -8,3 +8,51 @@ data Box X = Box of X
 let foo (Vec { ~x, ~y = Box v }) = ~x v
 ---
 
+(source_file
+  (def_list
+    (def_data
+      (ty_expr_app
+        (ty_expr_app
+          (uid_path
+            (uid))
+          (uid_path
+            (uid)))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (ty_record
+          (ty_fld_nameval
+            (tlid)
+            (uid_path
+              (uid)))
+          (ty_fld_nameval
+            (tlid)
+            (uid_path
+              (uid))))))
+    (def_data
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid))))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_app
+          (uid)
+          (ex_record
+            (fld_name
+              (tlid))
+            (fld_nameval
+              (tlid)
+              (ex_app
+                (uid)
+                (lid))))))
+      (ex_app
+        (tlid)
+        (lid)))))

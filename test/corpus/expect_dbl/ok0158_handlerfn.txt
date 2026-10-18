@@ -1,0 +1,62 @@
+==================
+ok0158_handlerfn.fram
+==================
+let runH {A} h (f : {E} -> (A ->[E] A) ->[E] _) =
+  handle x with h in
+  f x
+
+let _ = runH (handlerfn in (fn x => x) end) (fn op => op ())
+---
+
+(source_file
+  (def_list
+    (def_let
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_type
+            (uid)))
+        (lid)
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_arr
+              (ty_record
+                (ty_fld_type
+                  (uid)))
+              (ty_expr_arr
+                (ty_expr_arr
+                  (uid_path
+                    (uid))
+                  (ty_expr_app
+                    (ty_effect
+                      (uid_path
+                        (uid)))
+                    (uid_path
+                      (uid))))
+                (ty_expr_app
+                  (ty_effect
+                    (uid_path
+                      (uid)))
+                  (ty_expr_wildcard)))))))
+      (ex_def_list
+        (def_list
+          (def_handle_with
+            (lid)
+            (lid)))
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (wildcard)
+      (ex_app
+        (lid)
+        (ex_handlerfn
+          (ex_fn
+            (lid)
+            (lid)))
+        (ex_fn
+          (lid)
+          (ex_app
+            (lid)
+            (ctor_unit)))))))

@@ -1,0 +1,116 @@
+==================
+ok0140_explicitFunctionInstantiation.fram
+==================
+data Triples X Y Z = Triple of  X, Y, Z
+
+let _ = 
+  let f {type X, type Y, foo : X -> Y -> Triples X Y Y, bar : X ->[] X} x y =
+    foo (bar x) y
+  in
+  match f {foo x y = (Triple x y y), bar (x : Unit) = x} () () with
+  | Triple _ _ _ => ()
+  end
+---
+
+(source_file
+  (def_list
+    (def_data
+      (ty_expr_app
+        (ty_expr_app
+          (ty_expr_app
+            (uid_path
+              (uid))
+            (uid_path
+              (uid)))
+          (uid_path
+            (uid)))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid))
+        (uid_path
+          (uid))
+        (uid_path
+          (uid))))
+    (def_let
+      (wildcard)
+      (ex_def_list
+        (def_list
+          (def_let
+            (ex_app
+              (lid)
+              (ex_record
+                (fld_anontype
+                  (uid_path
+                    (uid)))
+                (fld_anontype
+                  (uid_path
+                    (uid)))
+                (fld_nameannot
+                  (lid)
+                  (ty_expr_arr
+                    (uid_path
+                      (uid))
+                    (ty_expr_arr
+                      (uid_path
+                        (uid))
+                      (ty_expr_app
+                        (ty_expr_app
+                          (ty_expr_app
+                            (uid_path
+                              (uid))
+                            (uid_path
+                              (uid)))
+                          (uid_path
+                            (uid)))
+                        (uid_path
+                          (uid))))))
+                (fld_nameannot
+                  (lid)
+                  (ty_expr_arr
+                    (uid_path
+                      (uid))
+                    (ty_expr_app
+                      (ty_effect)
+                      (uid_path
+                        (uid))))))
+              (lid)
+              (lid))
+            (ex_app
+              (lid)
+              (ex_app
+                (lid)
+                (lid))
+              (lid))))
+        (ex_match
+          (ex_app
+            (lid)
+            (ex_record
+              (fld_fn
+                (lid)
+                (lid)
+                (lid)
+                (ex_app
+                  (uid)
+                  (lid)
+                  (lid)
+                  (lid)))
+              (fld_fn
+                (lid)
+                (ex_annot
+                  (lid)
+                  (type_annot
+                    (uid_path
+                      (uid))))
+                (lid)))
+            (ctor_unit)
+            (ctor_unit))
+          (match_clause
+            (ex_app
+              (uid)
+              (wildcard)
+              (wildcard)
+              (wildcard))
+            (ctor_unit)))))))

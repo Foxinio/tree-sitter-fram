@@ -1,0 +1,138 @@
+==================
+ok0155_handlerfnFinally.fram
+==================
+data rec List X =
+  | []
+  | (::) of X, List X
+
+data BT E =
+  { flip : Unit ->[E] Bool
+  , fail : {X} -> Unit ->[E] X
+  }
+
+let hBT =
+  handler BT
+    { effect flip () = resume True || resume False
+    , effect fail () = False
+    }
+  return () => True
+  end
+
+let hBT' =
+  handlerfn
+    handle bt with hBT
+    in
+    bt
+  return  _ :: _  => ()
+  return  []      => bt.fail ()
+  finally True  => "ok"
+  finally False => "fail"
+  end
+---
+
+(source_file
+  (def_list
+    (def_data
+      (rec)
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (ctor_nil))
+      (ctor_decl
+        (op)
+        (uid_path
+          (uid))
+        (ty_expr_app
+          (uid_path
+            (uid))
+          (uid_path
+            (uid)))))
+    (def_data_record
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ty_record
+        (ty_fld_nameval
+          (lid)
+          (ty_expr_arr
+            (uid_path
+              (uid))
+            (ty_expr_app
+              (ty_effect
+                (uid_path
+                  (uid)))
+              (uid_path
+                (uid)))))
+        (ty_fld_nameval
+          (lid)
+          (ty_expr_arr
+            (ty_record
+              (ty_fld_type
+                (uid)))
+            (ty_expr_arr
+              (uid_path
+                (uid))
+              (ty_expr_app
+                (ty_effect
+                  (uid_path
+                    (uid)))
+                (uid_path
+                  (uid))))))))
+    (def_let
+      (lid)
+      (ex_handler
+        (ex_app
+          (uid)
+          (ex_record
+            (fld_effect_fn
+              (lid)
+              (ctor_unit)
+              (ex_binop
+                (ex_app
+                  (lid)
+                  (uid))
+                (op)
+                (ex_app
+                  (lid)
+                  (uid))))
+            (fld_effect_fn
+              (lid)
+              (ctor_unit)
+              (uid))))
+        (h_return
+          (ctor_unit)
+          (uid))))
+    (def_let
+      (lid)
+      (ex_handlerfn
+        (def_list
+          (def_handle_with
+            (lid)
+            (lid)))
+        (lid)
+        (h_return
+          (ex_binop
+            (wildcard)
+            (op)
+            (wildcard))
+          (ctor_unit))
+        (h_return
+          (ctor_nil)
+          (ex_app
+            (ex_method
+              (lid)
+              (lid))
+            (ctor_unit)))
+        (h_finally
+          (uid)
+          (str
+            (string_content)))
+        (h_finally
+          (uid)
+          (str
+            (string_content)))))))

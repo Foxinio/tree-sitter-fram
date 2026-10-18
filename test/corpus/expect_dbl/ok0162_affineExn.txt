@@ -1,0 +1,46 @@
+==================
+ok0162_affineExn.fram
+==================
+data Exn E = { raise : {X} -> Int ->[aff E] X }
+
+let hExn =
+  handler Exn
+    { aff effect raise n = n }
+  end
+---
+
+(source_file
+  (def_list
+    (def_data_record
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ty_record
+        (ty_fld_nameval
+          (lid)
+          (ty_expr_arr
+            (ty_record
+              (ty_fld_type
+                (uid)))
+            (ty_expr_arr
+              (uid_path
+                (uid))
+              (ty_expr_app
+                (ty_effect
+                  (ty_expr_aff
+                    (uid_path
+                      (uid))))
+                (uid_path
+                  (uid))))))))
+    (def_let
+      (lid)
+      (ex_handler
+        (ex_app
+          (uid)
+          (ex_record
+            (fld_effect_fn
+              (lid)
+              (lid)
+              (lid))))))))

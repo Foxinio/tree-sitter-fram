@@ -12,3 +12,34 @@ let foo (x : Char) = x
 let _ = foo '1'
 ---
 
+(source_file
+  (def_list
+    (def_let
+      (wildcard)
+      (chr))
+    (def_let
+      (wildcard)
+      (chr))
+    (def_let
+      (wildcard)
+      (chr))
+    (def_let
+      (wildcard)
+      (chr))
+    (def_let
+      (wildcard)
+      (chr))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_annot
+          (lid)
+          (type_annot
+            (uid_path
+              (uid)))))
+      (lid))
+    (def_let
+      (wildcard)
+      (ex_app
+        (lid)
+        (chr)))))

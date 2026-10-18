@@ -1,0 +1,69 @@
+==================
+ok0173_or_pattern_fn_param.fram
+==================
+data Binary = Zero | One
+
+let f = fn (Zero | One) => ()
+
+data Two A = First of A | Second of A
+
+let extract = fn (First a | Second a) => a
+
+let g x =
+  let (Zero | One) = x in
+  ()
+---
+
+(source_file
+  (def_list
+    (def_data
+      (uid_path
+        (uid))
+      (ctor_decl
+        (uid))
+      (ctor_decl
+        (uid)))
+    (def_let
+      (lid)
+      (ex_fn
+        (ex_or_pattern
+          (uid)
+          (uid))
+        (ctor_unit)))
+    (def_data
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid))))
+    (def_let
+      (lid)
+      (ex_fn
+        (ex_or_pattern
+          (ex_app
+            (uid)
+            (lid))
+          (ex_app
+            (uid)
+            (lid)))
+        (lid)))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_def_list
+        (def_list
+          (def_let
+            (ex_or_pattern
+              (uid)
+              (uid))
+            (lid)))
+        (ctor_unit)))))

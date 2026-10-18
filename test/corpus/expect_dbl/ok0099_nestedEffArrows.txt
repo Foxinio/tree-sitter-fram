@@ -5,3 +5,48 @@ let foo (f : Unit ->[] Unit ->[] Unit) = f () ()
 let foo (f : Unit ->[] ({X} -> X) -> Unit) = ()
 ---
 
+(source_file
+  (def_list
+    (def_let
+      (ex_app
+        (lid)
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_arr
+              (uid_path
+                (uid))
+              (ty_expr_arr
+                (ty_expr_app
+                  (ty_effect)
+                  (uid_path
+                    (uid)))
+                (ty_expr_app
+                  (ty_effect)
+                  (uid_path
+                    (uid))))))))
+      (ex_app
+        (lid)
+        (ctor_unit)
+        (ctor_unit)))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_arr
+              (uid_path
+                (uid))
+              (ty_expr_arr
+                (ty_expr_app
+                  (ty_effect)
+                  (ty_expr_arr
+                    (ty_record
+                      (ty_fld_type
+                        (uid)))
+                    (uid_path
+                      (uid))))
+                (uid_path
+                  (uid)))))))
+      (ctor_unit))))

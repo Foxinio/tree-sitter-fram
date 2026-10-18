@@ -4,3 +4,13 @@ ok0077_effectResume.fram
 let h = handler effect x => resume x end
 ---
 
+(source_file
+  (def_list
+    (def_let
+      (lid)
+      (ex_handler
+        (ex_effect
+          (lid)
+          (ex_app
+            (lid)
+            (lid)))))))

@@ -6,3 +6,27 @@ parameter x
 let foo {T} (f : _ ->[_] T) = f x
 ---
 
+(source_file
+  (def_list
+    (def_parameter
+      (fld_name
+        (lid)))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_type
+            (uid)))
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_arr
+              (ty_expr_wildcard)
+              (ty_expr_app
+                (ty_effect
+                  (ty_expr_wildcard))
+                (uid_path
+                  (uid)))))))
+      (ex_app
+        (lid)
+        (lid)))))

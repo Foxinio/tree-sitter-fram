@@ -1,0 +1,101 @@
+==================
+ok0141_explicitEffectfulFunctionInstantiation.fram
+==================
+data BT E = 
+  { flip : Unit ->[E] Bool
+  , fail : {type X} -> Unit ->[E] X
+  }
+
+let fun1 {E} (s : BT E) =
+	s.fail ()
+
+let _ = handle ~bt = BT
+  { effect flip () / r = r True; r False
+  , effect fail () = ()
+  } in fun1 ~bt
+---
+
+(source_file
+  (def_list
+    (def_data_record
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ty_record
+        (ty_fld_nameval
+          (lid)
+          (ty_expr_arr
+            (uid_path
+              (uid))
+            (ty_expr_app
+              (ty_effect
+                (uid_path
+                  (uid)))
+              (uid_path
+                (uid)))))
+        (ty_fld_nameval
+          (lid)
+          (ty_expr_arr
+            (ty_record
+              (ty_fld_anontype
+                (uid_path
+                  (uid))))
+            (ty_expr_arr
+              (uid_path
+                (uid))
+              (ty_expr_app
+                (ty_effect
+                  (uid_path
+                    (uid)))
+                (uid_path
+                  (uid))))))))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_type
+            (uid)))
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_app
+              (uid_path
+                (uid))
+              (uid_path
+                (uid))))))
+      (ex_app
+        (ex_method
+          (lid)
+          (lid))
+        (ctor_unit)))
+    (def_let
+      (wildcard)
+      (ex_def_list
+        (def_list
+          (def_handle
+            (tlid)
+            (ex_app
+              (uid)
+              (ex_record
+                (fld_effect_fn
+                  (lid)
+                  (ctor_unit)
+                  (resumption
+                    (lid))
+                  (ex_binop
+                    (ex_app
+                      (lid)
+                      (uid))
+                    (op)
+                    (ex_app
+                      (lid)
+                      (uid))))
+                (fld_effect_fn
+                  (lid)
+                  (ctor_unit)
+                  (ctor_unit))))))
+        (ex_app
+          (lid)
+          (tlid))))))

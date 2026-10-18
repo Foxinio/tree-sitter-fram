@@ -14,3 +14,55 @@ let foo (x : String) = x
 let _ = foo "42"
 ---
 
+(source_file
+  (def_list
+    (def_let
+      (wildcard)
+      (str))
+    (def_let
+      (wildcard)
+      (str
+        (string_content)))
+    (def_let
+      (wildcard)
+      (str
+        (escape_sequence)))
+    (def_let
+      (wildcard)
+      (str
+        (escape_sequence)))
+    (def_let
+      (wildcard)
+      (str
+        (escape_sequence)))
+    (def_let
+      (wildcard)
+      (str
+        (escape_sequence)
+        (escape_sequence)))
+    (def_let
+      (wildcard)
+      (str
+        (escape_sequence)
+        (escape_sequence)
+        (escape_sequence)
+        (escape_sequence)
+        (escape_sequence)
+        (escape_sequence)
+        (escape_sequence)
+        (escape_sequence)))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_annot
+          (lid)
+          (type_annot
+            (uid_path
+              (uid)))))
+      (lid))
+    (def_let
+      (wildcard)
+      (ex_app
+        (lid)
+        (str
+          (string_content))))))

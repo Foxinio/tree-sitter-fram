@@ -1,0 +1,87 @@
+==================
+ok0151_letAnnot.fram
+==================
+let id1 {X} x : X = x
+let id2 {X} x : total X = x
+
+let call {E} (f : _ ->[E] _) : [E] _ = f ()
+
+let ensureTotal (f : _ -> _) : total _ = f ()
+
+let _ = ensureTotal id1
+let _ = ensureTotal id2
+---
+
+(source_file
+  (def_list
+    (def_let
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_type
+            (uid)))
+        (lid))
+      (type_annot
+        (uid_path
+          (uid)))
+      (lid))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_type
+            (uid)))
+        (lid))
+      (type_annot
+        (uid_path
+          (uid)))
+      (lid))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_type
+            (uid)))
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_arr
+              (ty_expr_wildcard)
+              (ty_expr_app
+                (ty_effect
+                  (uid_path
+                    (uid)))
+                (ty_expr_wildcard))))))
+      (type_annot
+        (ty_expr_app
+          (ty_effect
+            (uid_path
+              (uid)))
+          (ty_expr_wildcard)))
+      (ex_app
+        (lid)
+        (ctor_unit)))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_arr
+              (ty_expr_wildcard)
+              (ty_expr_wildcard)))))
+      (type_annot
+        (ty_expr_wildcard))
+      (ex_app
+        (lid)
+        (ctor_unit)))
+    (def_let
+      (wildcard)
+      (ex_app
+        (lid)
+        (lid)))
+    (def_let
+      (wildcard)
+      (ex_app
+        (lid)
+        (lid)))))

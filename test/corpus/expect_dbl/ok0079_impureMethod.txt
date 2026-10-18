@@ -8,3 +8,41 @@ method foo (I f) = f (I f)
 let baz (I _) (x : U) = x.foo
 ---
 
+(source_file
+  (def_list
+    (def_data
+      (rec)
+      (uid_path
+        (uid))
+      (ctor_decl
+        (uid)
+        (ty_expr_arr
+          (uid_path
+            (uid))
+          (uid_path
+            (uid)))))
+    (def_method
+      (ex_app
+        (lid)
+        (ex_app
+          (uid)
+          (lid)))
+      (ex_app
+        (lid)
+        (ex_app
+          (uid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_app
+          (uid)
+          (wildcard))
+        (ex_annot
+          (lid)
+          (type_annot
+            (uid_path
+              (uid)))))
+      (ex_method
+        (lid)
+        (lid)))))

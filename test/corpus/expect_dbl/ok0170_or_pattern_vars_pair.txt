@@ -1,0 +1,70 @@
+==================
+ok0170_or_pattern_vars_pair.fram
+==================
+data Pair A B = Pair of A, B
+
+let proj_first_or_second p =
+  match p with
+  | Pair x _ | Pair _ x => x
+  end
+
+let proj_both p =
+  match p with
+  | Pair x y | Pair y x => Pair x y
+  end
+---
+
+(source_file
+  (def_list
+    (def_data
+      (ty_expr_app
+        (ty_expr_app
+          (uid_path
+            (uid))
+          (uid_path
+            (uid)))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid))
+        (uid_path
+          (uid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_match
+        (lid)
+        (match_clause
+          (ex_or_pattern
+            (ex_app
+              (uid)
+              (lid)
+              (wildcard))
+            (ex_app
+              (uid)
+              (wildcard)
+              (lid)))
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_match
+        (lid)
+        (match_clause
+          (ex_or_pattern
+            (ex_app
+              (uid)
+              (lid)
+              (lid))
+            (ex_app
+              (uid)
+              (lid)
+              (lid)))
+          (ex_app
+            (uid)
+            (lid)
+            (lid)))))))

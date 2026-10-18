@@ -6,3 +6,41 @@ data T (E : effect) = C of (Unit ->[E] Unit)
 let f {E} (C g : T E) = g
 ---
 
+(source_file
+  (def_list
+    (def_data
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (ty_kind_annot
+          (uid_path
+            (uid))
+          (kind_effect)))
+      (ctor_decl
+        (uid)
+        (ty_expr_arr
+          (uid_path
+            (uid))
+          (ty_expr_app
+            (ty_effect
+              (uid_path
+                (uid)))
+            (uid_path
+              (uid))))))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_type
+            (uid)))
+        (ex_annot
+          (ex_app
+            (uid)
+            (lid))
+          (type_annot
+            (ty_expr_app
+              (uid_path
+                (uid))
+              (uid_path
+                (uid))))))
+      (lid))))

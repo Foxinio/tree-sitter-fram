@@ -7,318 +7,197 @@
 /// <reference types="tree-sitter-cli/dsl" />
 // @ts-nocheck
 
+const binary = ($, left, operator, right) => seq(left, alias(operator, $.op), right);
+
 module.exports = grammar({
   name: "fram",
-
   word: $ => $.lid,
-
-  extras: $ => [
-    $.block_comment,
-    $.line_comment,
-    $.line_doc_comment,
-    /\s/,
-  ],
-
-  externals: $ => [$.block_comment_start, $.block_comment_tag, $.block_comment_rest, $.block_comment_unfinished, $.error_sentinel],
+  conflicts: $ => [[$.uid_path]],
+  extras: $ => [$.block_comment, $.block_comment_unfinished, $.line_comment, $.line_doc_comment, /\s/],
+  externals: $ => [$.block_comment, $.block_comment_unfinished, $.error_sentinel, $.string_content,
+    $._op_0, $._op_20, $._op_30, $._op_40, $._op_50, $._op_60,
+    $._op_70, $._op_80, $._op_90, $._op_100],
 
   rules: {
-    // TODO: add the actual grammar rules
     source_file: $ => seq(repeat($.imprt), optional($.def_list)),
-    _digit: $ => /[0-9]/,
-    _lid_start: $ => /[a-z_]/,
-    _uid_start: $ => /[A-Z]/,
-    _var_char: $ => choice($._lid_start, $._uid_start, $._digit, '\''),
-    _op_char: $ => /[<>&$#?!@^+~*%;,=|:./]|-/,
     lid: _ => /[a-z_][a-zA-Z_0-9']*/,
     uid: _ => /[A-Z][a-zA-Z_0-9']*/,
     tlid: _ => /~[a-z_][a-zA-Z_0-9']*/,
     qlid: _ => /\?[a-z_][a-zA-Z_0-9']*/,
-    op: $ => /([<>&$#?!@^+~*%;,=|:./]|-)+/,
-    num: _ => /(0[bB][01]+|0[oO][0-7]+|[0-9]+|0[xX][0-9a-fA-F]+)/,
-    num64: _ => /(0[bB][01]+|0[oO][0-7]+|[0-9]+|0[xX][0-9a-fA-F]+)L/,
-    // TODO: escapes
-    str: _ => /".*"/,
-    chr: _ => /'(\\.|.)'/,  // char literal: escape sequence or any single char
+    num: _ => /0[bB][01]+|0[oO][0-7]+|0[xX][0-9a-fA-F]+|[0-9]+/,
+    num64: _ => /(0[bB][01]+|0[oO][0-7]+|0[xX][0-9a-fA-F]+|[0-9]+)L/,
+    chr: _ => /'(\\(["'\\0nbtrvaf]|[xX][0-9a-fA-F]{2})|[^\\])'/,
+    str: $ => seq('"', repeat(choice($.string_content, $.escape_sequence, $.interpolation)), '"'),
+    escape_sequence: _ => token.immediate(/\\(["'\\0nbtrvaf]|[xX][0-9a-fA-F]{2})/),
+    interpolation: $ => seq(token.immediate('\\{'), $._expr_40,
+      optional(seq("|", $._expr_40)), "}"),
 
-    line_comment: _ => /#[^\n]*\n/,
-    line_doc_comment: _ => /##[^\n]*\n/,
-    block_comment: $ => seq(
-      $.block_comment_start,
-      optional($.block_comment_tag),
-      $.block_comment_rest,
-    ),
-    comment_text: $ => repeat1(/.|\n|\r/),
+    line_comment: _ => /#[^\n]*/,
+    line_doc_comment: _ => token(prec(1, /##[^\n]*/)),
 
-
-    _name: $ => choice(
-      $.label, 
-      $.lid,
-      $.qlid,
-      $.tlid,
-      $.method,
-    ),
-    label: $ => "label",
+    _name: $ => choice($.lid, $.qlid, $.tlid, $.method),
     method: $ => seq("method", $.lid),
-
-    rec: $ => "rec",
-    pub: $ => "pub",
-    abstr: $ => "abstr",
-
+    rec: _ => "rec",
+    pub: _ => "pub",
     def_list: $ => repeat1($._def),
-    _def: $ => prec.left(11, choice( 
-      $.def_let,
-      $.def_parameter,
-      $.def_data,
-      $.def_data_record,
-      $.def_type,
-      // $.def_label,
-      $.def_handle,
-      $.def_handle_with,
-      $.def_method,
-      $.def_module,
-      $.def_rec,
-      $.def_open,
-    )),
-
-    var_id: $ => prec(2, choice(
-      $.lid,
-      seq("(", $.op, optional("."), ")")
-    )),
-
-    def_rec: $ => seq($.rec, $.def_list, "end"),
-
-    def_method: $ => choice(
-      seq(optional($.pub), "method", optional($.rec), $._expr, "=", $._expr),
-      seq(optional($.pub), "method", "fn", $.var_id, optional(seq("=", $.var_id))),
-    ),
-
-    def_module: $ => seq(optional($.pub), "module", optional($.rec), $.uid, $.def_list, "end"),
-
-    def_open: $ => seq(optional($.pub), "open", $.uid_path),
-
-    def_let: $ => prec.left(11, seq(optional($.pub), "let", optional($.rec), $._expr,  "=", $._expr)),
-
-    def_data: $ => seq(optional($.data_vis), "data", optional($.rec), $._ty_expr, "=", optional("|"), optional($._ctor_decls1)),
-
-    def_data_record: $ => seq(optional($.data_vis), "data", optional($.rec), $._ty_expr, "=", $.ty_record),
-    data_vis: $ => prec(2, choice($.pub, "abstr")),
-
-    def_type: $ => prec(2, seq(optional($.pub), "type", $._ty_expr, "=", $._ty_expr)),  // type alias
-
-    def_handle: $ => seq(optional($.pub), "handle", optional($.rec), $._expr, "=", $._expr, repeat($._h_clause)),
-
-    def_handle_with: $ => seq(optional($.pub), "handle", optional($.rec), $._expr, "with", $._expr),
-
+    _def: $ => seq(optional($.attributes), choice(
+      $.def_let, $.def_parameter, $.def_data, $.def_data_record, $.def_type,
+      $.def_label, $.def_handle, $.def_handle_with, $.def_method,
+      $.def_module, $.def_section, $.def_rec, $.def_open)),
+    attributes: $ => seq("@{", optional(seq($.attribute, repeat(seq(",", $.attribute)))), "}"),
+    attribute: $ => repeat1($.lid),
+    def_let: $ => seq(optional($.pub), "let", optional($.rec), $._expr_70,
+      optional($.type_annot), "=", $._expr),
+    def_method: $ => seq(optional($.pub), "method", optional($.rec), $._expr_70,
+      optional($.type_annot), "=", $._expr),
     def_parameter: $ => seq("parameter", $._field),
-
+    def_data: $ => seq(optional($.data_vis), "data", optional($.rec), $._ty_expr,
+      "=", optional("|"), optional(seq($.ctor_decl, repeat(seq("|", $.ctor_decl))))),
+    def_data_record: $ => seq(optional($.data_vis), "data", optional($.rec), $._ty_expr, "=", $.ty_record),
+    data_vis: $ => choice($.pub, "abstr"),
+    def_type: $ => seq(optional($.pub), "type", optional($.rec), $._ty_expr, "=", $._ty_expr),
+    def_label: $ => seq(optional($.pub), "label", optional($.rec), $._expr_100, optional($.effect_var)),
+    effect_var: $ => seq("/", $._ty_expr),
+    def_handle: $ => seq(optional($.pub), "handle", optional($.rec), $._expr_100,
+      optional($.effect_var), "=", $._expr, repeat($._h_clause)),
+    def_handle_with: $ => seq(optional($.pub), "handle", optional($.rec), $._expr_100,
+      optional($.effect_var), "with", $._expr),
+    def_module: $ => seq(optional($.pub), "module", optional($.rec), $.uid, optional($.def_list), "end"),
+    def_section: $ => seq(optional($.pub), "section", optional($.def_list), "end"),
+    def_rec: $ => seq(optional($.pub), $.rec, optional($.def_list), "end"),
+    def_open: $ => seq(optional($.pub), "open", $.uid_path),
     import_path_rel: $ => seq($.uid, repeat(seq("/", $.uid))),
-    import_path_abs: $ => seq("/", $.uid, repeat(seq("/", $.uid))),
-    _import_path: $ => choice($.import_path_abs, $.import_path_rel),
+    import_path_abs: $ => seq("/", $.import_path_rel),
+    open: _ => "open",
+    imprt: $ => seq("import", choice(seq($.open, choice($.import_path_rel, $.import_path_abs)),
+      seq(choice($.import_path_rel, $.import_path_abs), optional(seq("as", $.uid))))),
 
-    open: $ => "open",
-    imprt: $ => seq("import", optional($.open), $._import_path, optional(seq("as", $.uid))),
-
-
-    implicit_ty_args: $ => seq("{", repeat1($._ty_expr), "}"),
-    type_annot: $ => seq(":", $._ty_expr),
-
-    // Kind expressions
-    _kind_expr: $ => choice(
-      $.kind_type,
-      $.kind_effect,
-      $.kind_arrow,
-      $.kind_wildcard,
-    ),
-    kind_type: $ => "type",
-    kind_effect: $ => "effect", 
-    kind_arrow: $ => prec.right(1, seq($._kind_expr, "->", $._kind_expr)),
-    kind_wildcard: $ => "_",
-
-    h_return: $ => seq("return", $._expr, "=>", $._expr),
-    h_finally: $ => seq("finally", $._expr, "=>", $._expr),
-    _h_clause: $ => choice($.h_return, $.h_finally),
-
-
-    _ctor_decls1: $ => seq($.ctor_decl, repeat(seq("|", $.ctor_decl))),
-
-    ctor_decl: $ => choice(
-      $._ctor_name,
-      seq($._ctor_name, "of", $._ty_expr_list),
-    ),
-    
-    _ty_expr_list: $ => seq($._ty_expr, repeat(seq(",", $._ty_expr))),
-
-    ctor_unit: _ => "()",
-    ctor_nil: _ => "[]",
-
-    _ctor_name: $ => choice(
-      $.ctor_unit,
-      $.ctor_nil,
-      $.uid,
-      seq("(", $.op, ")"),
-      seq("(", $.op, ".)"),
-    ),
-
-    _ty_expr: $ => choice(
-      $.ty_expr_arr,
-      $._ty_expr_simple,
-      $.ty_expr_app,
-      $.ty_expr_effect,
-      $.ty_expr_type,
-    ),
-
-    ty_expr_effect: $ => seq("effect", $._ty_expr_simple),
+    type_annot: $ => seq(":", optional("total"), $._ty_expr),
+    _kind_expr: $ => choice($.kind_type, $.kind_effect, $.kind_arrow,
+      $.kind_wildcard, seq("(", $._kind_expr, ")")),
+    kind_type: _ => "type",
+    kind_effect: _ => "effect",
+    kind_arrow: $ => prec.right(seq($._kind_expr, "->", $._kind_expr)),
+    kind_wildcard: _ => "_",
+    _ty_expr: $ => choice($.ty_expr_arr, $._ty_expr_app),
+    ty_expr_arr: $ => seq($._ty_expr_app, choice("->", "->>"), $._ty_expr),
+    _ty_expr_app: $ => choice($._ty_expr_simple, $.ty_expr_app, $.ty_expr_type, $.ty_expr_aff),
+    ty_expr_app: $ => seq($._ty_expr_app, $._ty_expr_simple),
     ty_expr_type: $ => seq("type", $._ty_expr_simple),
-
+    ty_expr_aff: $ => seq("aff", $._ty_expr_simple),
+    _ty_expr_simple: $ => choice(seq("(", $._ty_expr, ")"), $.ty_kind_annot,
+      $.ty_expr_wildcard, $.uid_path, $.ty_effect, $.ty_record),
     uid_path: $ => seq($.uid, repeat(seq(".", $.uid))),
-
-
-    ty_expr_arr: $ => prec.right(1, seq($._ty_expr, "->", $._ty_expr)),
-    ty_expr_app: $ => prec.left(9, seq($._ty_expr, $._ty_expr)),
-    _ty_expr_simple: $ => choice(
-      $.ty_kind_annot,  // prioritize kind annotations over general parentheses
-      seq("(", $._ty_expr, ")"),
-      $.ty_expr_wildcard,
-      $.uid_path,
-      $.ty_effect,
-      $.ty_record,
-    ),
-
-    ty_kind_annot: $ => seq("(", $.uid, ":", $._kind_expr, ")"),  // (F : kind)
-
-    ex_handler: $ => seq("handler", $._expr, repeat($._h_clause), "end"),
-
-    ty_effect: $ => seq(
-      "[",
-      optional(seq($._ty_expr, repeat(seq(",", $._ty_expr)))),
-      optional($.ty_effect_row),
-      "]"
-    ),
-
-    ty_effect_row: $ => seq("|", $._ty_expr_simple),
-
+    ty_kind_annot: $ => seq("(", $.uid_path, ":", $._kind_expr, ")"),
     ty_expr_wildcard: _ => "_",
-    wildcard: _ => "_",
-
+    ty_effect: $ => seq("[", optional($._ty_expr_list), "]"),
+    _ty_expr_list: $ => seq($._ty_expr_app, repeat(seq(",", $._ty_expr_app))),
     ty_record: $ => seq("{", $._ty_field, repeat(seq(",", $._ty_field)), "}"),
-
-    _ty_field: $ => choice(
-      $.ty_fld_anontype,
-      $.ty_fld_effect,
-      $.ty_fld_effectval,
-      $.ty_fld_type,
-      $.ty_fld_typeval,
-      $.ty_fld_name,
-      $.ty_fld_nameval,
-    ),
-
+    _ty_field: $ => choice($.ty_fld_anontype, $.ty_fld_type, $.ty_fld_typeval,
+      $.ty_fld_name, $.ty_fld_nameval),
     ty_fld_anontype: $ => seq("type", $._ty_expr),
-    ty_fld_effect: $ => "effect",
-    ty_fld_effectval: $ => seq("effect", "=", $._ty_expr),
-    ty_fld_type: $ => choice(
-      $.uid,
-      seq($.uid, ":", $._kind_expr),  // kind-annotated type parameter
-    ),
+    ty_fld_type: $ => seq($.uid, optional(seq(":", $._kind_expr))),
     ty_fld_typeval: $ => seq($.uid, "=", $._ty_expr),
     ty_fld_name: $ => $._name,
     ty_fld_nameval: $ => seq($._name, ":", $._ty_expr),
+    ctor_decl: $ => seq($._ctor_name, optional(seq("of", $._ty_expr_list))),
+    ctor_unit: _ => seq("(", ")"),
+    ctor_nil: _ => seq("[", "]"),
+    _ctor_name: $ => choice($.ctor_unit, $.ctor_nil, $.uid, seq("(", $.op, optional("."), ")")),
 
-
-
-    _expr: $ => choice(
-      $.ex_def_list,
-      $.ex_fn,
-      $.ex_effect,
-      $.ex_binop,
-      $.ex_unop,
-      $.ex_annot,
-      $.ex_app,
-      $._ex_simple,  // ex_pub is now available through _ex_simple
-      $.ex_if,
-      $.ex_if_no_else,
-      $.ex_extern,
-      // TODO: others
-    ),
-
-    ex_if: $ => prec(2,seq("if", $._expr, "then", $._expr, "else", $._expr)),
-    ex_if_no_else: $ => seq("if", $._expr, "then", $._expr),
-    ex_pub: $ => prec.right(5, seq($.pub, $.lid)),  // public identifier pattern - lower precedence than definitions 
-    ex_extern: $ => seq("extern", $.lid),
-
-    _ex_simple: $ => choice(
-      $.lid,
-      $.tlid,
-      $.wildcard,
-      $._ex_ctor,
-      $.num,
-      $.num64,
-      $.str,
-      $.chr,
-      $.ctor_nil,
-      $.ctor_unit,
-      seq("(", choice($._expr, $.ex_pub), ")"),  // allow pub only in parentheses
-      $.ex_list,
-      $.ex_match,
-      $.ex_record,
-      $.ex_handler,
-      seq("(", $.op, ")"),
-      seq("(", $.op, ".)"),
-
-    ),
-
-    ex_list: $ => seq("[", $._expr, repeat(seq(",", $._expr)), optional(","), "]"),
-
-    _ex_ctor: $ => $.uid,
-
-    ex_binop: $ => prec.left(1, seq($._expr, $.op, $._expr)),
-    ex_unop: $ => prec(9, seq($.op, $._expr)),
-    ex_fn: $ => prec.right(1, seq("fn", repeat1($._expr), "=>", prec.left(1, $._expr))),
-    ex_annot: $ => prec(3, seq($._expr, $.type_annot)),
-
-    ex_app: $ => prec.right(9, seq($._ex_simple, repeat1($._ex_simple))),
-
+    _pattern: $ => choice($._expr, $.ex_or_pattern),
+    ex_or_pattern: $ => seq($._expr, "|", $._pattern),
+    _expr: $ => choice($.ex_def_list, $.ex_fn, $.ex_effect, $._expr_0),
+    ex_def_list: $ => seq($.def_list, "in", $._expr),
+    ex_fn: $ => seq("fn", repeat1($._expr_250), "=>", $._expr),
+    ex_effect: $ => seq(optional($.effect_label), optional("aff"), "effect",
+      repeat($._expr_250), optional($.resumption), "=>", $._expr),
+    effect_label: $ => seq($._expr_300, "."),
     resumption: $ => seq("/", $._expr),
-    ex_effect: $ => prec.right(2 ,seq("effect", repeat($._expr), optional($.resumption), "=>", $._expr)),
-    ex_def_list: $ => prec.right(1, seq($.def_list, "in", $._expr)),
 
-    ex_match: $ => seq(
-      "match", 
-      $._expr, 
-      "with", 
-      optional(seq(
-        optional("|"), 
-        $.match_clause, 
-        repeat(seq("|", $.match_clause)))
-      ), 
-      "end"
-    ),
-
-    match_clause: $ => seq($._expr, "=>", $._expr),
-
+    _expr_0: $ => choice($._expr_10, alias($._binop_0, $.ex_binop)),
+    _binop_0: $ => binary($, $._expr_10, $._op_0, $._expr),
+    _expr_10: $ => choice($._expr_20, $.ex_if, $.ex_if_no_else),
+    ex_if: $ => prec.right(seq("if", $._expr, "then", $._expr_10, "else", $._expr_10)),
+    ex_if_no_else: $ => prec.right(seq("if", $._expr, "then", $._expr_10)),
+    _expr_20: $ => choice($._expr_30, alias($._binop_20, $.ex_binop)),
+    _binop_20: $ => binary($, $._expr_30, $._op_20, $._expr_20),
+    _expr_30: $ => choice($._expr_40, $.ex_annot, alias($._binop_30, $.ex_binop)),
+    ex_annot: $ => seq($._expr_30, $.type_annot),
+    _binop_30: $ => binary($, $._expr_30, choice($._op_30, ","), $._expr_40),
+    _expr_40: $ => choice($._expr_50, alias($._binop_40, $.ex_binop)),
+    _binop_40: $ => binary($, $._expr_50, $._op_40, $._expr_40),
+    _expr_50: $ => choice($._expr_60, alias($._binop_50, $.ex_binop)),
+    _binop_50: $ => binary($, $._expr_60, $._op_50, $._expr_50),
+    _expr_60: $ => choice($._expr_70, alias($._binop_60, $.ex_binop)),
+    _binop_60: $ => binary($, $._expr_60, $._op_60, $._expr_70),
+    _expr_70: $ => choice($._expr_80, alias($._binop_70, $.ex_binop)),
+    _binop_70: $ => binary($, $._expr_80, $._op_70, $._expr_70),
+    _expr_80: $ => choice($._expr_90, alias($._binop_80, $.ex_binop)),
+    _binop_80: $ => binary($, $._expr_80, $._op_80, $._expr_90),
+    _expr_90: $ => choice($._expr_100, alias($._binop_90, $.ex_binop)),
+    _binop_90: $ => binary($, $._expr_90, choice($._op_90, "/"), $._expr_100),
+    _expr_100: $ => choice($._expr_150, alias($._binop_100, $.ex_binop)),
+    _binop_100: $ => binary($, $._expr_150, $._op_100, $._expr_100),
+    _expr_150: $ => choice($.ex_unop, $._expr_200),
+    ex_unop: $ => seq(alias($._op_80, $.op), $._expr_150),
+    _expr_200: $ => choice($._expr_250, $.ex_app, $.ex_method_call, $.ex_extern, $.ex_pub),
+    ex_app: $ => seq($._expr_250, repeat1($._expr_250)),
+    ex_method_call: $ => seq($._expr_200, ">.", $.lid, repeat($._expr_250)),
+    ex_extern: $ => seq("extern", $.lid),
+    ex_pub: $ => seq($.pub, $._expr_250),
+    _expr_250: $ => choice($._expr_300, $.uid, $.ex_select),
+    ex_select: $ => seq($.uid_path, ".", choice($._expr_300, $.uid)),
+    _expr_300: $ => choice($._ex_simple, $.ex_method),
+    ex_method: $ => seq($._expr_300, ".", $.lid),
+    _ex_simple: $ => choice($.lid, $.tlid, $.wildcard, $.num, $.num64, $.str, $.chr,
+      $.ctor_nil, $.ctor_unit, seq("(", $._pattern, ")"), $.ex_list, $.ex_match,
+      $.ex_record, $.ex_handler, $.ex_handlerfn, seq("(", $.op, optional("."), ")")),
+    wildcard: _ => "_",
+    ex_list: $ => seq("[", $._expr_40, repeat(seq(",", $._expr_40)), "]"),
+    ex_match: $ => seq("match", $._expr, "with", optional(seq(optional("|"),
+      $.match_clause, repeat(seq("|", $.match_clause)))), "end"),
+    match_clause: $ => seq($._pattern, "=>", $._expr),
+    ex_handler: $ => seq("handler", $._expr, repeat($._h_clause), "end"),
+    ex_handlerfn: $ => seq("handlerfn", optional($.def_list), "in", $._expr, repeat($._h_clause), "end"),
+    _h_clause: $ => choice($.h_return, $.h_finally),
+    h_return: $ => seq("return", $._pattern, "=>", $._expr),
+    h_finally: $ => seq("finally", $._pattern, "=>", $._expr),
     ex_record: $ => seq("{", $._field, repeat(seq(",", $._field)), "}"),
-
-    _field: $ => choice(
-      $.fld_anontype,
-      $.fld_effect,
-      $.fld_effectval,
-      $.fld_type,  // now handles kind annotations
-      $.fld_typeval,
-      $.fld_name,
-      $.fld_nameval,
-      $.fld_nameannot,
-      $.fld_module,
-    ),
+    _field: $ => choice($.fld_anontype, $.fld_type, $.fld_typeval, $.fld_name,
+      $.fld_nameval, $.fld_nameannot, $.fld_module, $.fld_open, $.fld_fn, $.fld_effect_fn),
     fld_anontype: $ => seq("type", $._ty_expr),
-    fld_effect: $ => "effect",
-    fld_effectval: $ => seq("effect", "=", $._ty_expr),
-    fld_type: $ => choice(
-      $.uid,
-      seq($.uid, ":", $._kind_expr),  // kind-annotated type/effect parameter
-    ),
+    fld_type: $ => seq($.uid, optional(seq(":", $._kind_expr))),
     fld_typeval: $ => seq($.uid, "=", $._ty_expr),
     fld_name: $ => $._name,
-    fld_nameval: $ => seq($._name, "=", $._expr),
+    fld_nameval: $ => seq($._name, "=", $._expr_no_comma),
     fld_nameannot: $ => seq($._name, ":", $._ty_expr),
-    fld_module: $ => seq("module", $.uid),
-  }
+    fld_module: $ => seq("module", $.uid_path),
+    fld_open: _ => "open",
+    fld_fn: $ => seq($._name, repeat1($._expr_250), "=", $._expr_no_comma),
+    fld_effect_fn: $ => seq(optional($.effect_label), optional("aff"), "effect",
+      $._name, repeat1($._expr_250), optional($.resumption), "=", $._expr_no_comma),
+
+    _expr_no_comma: $ => choice(alias($._defs_no_comma, $.ex_def_list),
+      alias($._fn_no_comma, $.ex_fn), alias($._effect_no_comma, $.ex_effect), $._no_comma_0),
+    _defs_no_comma: $ => seq($.def_list, "in", $._expr_no_comma),
+    _fn_no_comma: $ => seq("fn", repeat1($._expr_250), "=>", $._expr_no_comma),
+    _effect_no_comma: $ => seq(optional($.effect_label), optional("aff"), "effect",
+      repeat($._expr_250), optional($.resumption), "=>", $._expr_no_comma),
+    _no_comma_0: $ => choice($._no_comma_10, alias($._no_comma_binop_0, $.ex_binop)),
+    _no_comma_binop_0: $ => binary($, $._no_comma_10, $._op_0, $._expr_no_comma),
+    _no_comma_10: $ => choice($._no_comma_20, alias($._no_comma_if, $.ex_if),
+      alias($._no_comma_if_no_else, $.ex_if_no_else)),
+    _no_comma_if: $ => prec.right(seq("if", $._expr, "then", $._no_comma_10, "else", $._no_comma_10)),
+    _no_comma_if_no_else: $ => prec.right(seq("if", $._expr, "then", $._no_comma_10)),
+    _no_comma_20: $ => choice($._no_comma_30, alias($._no_comma_binop_20, $.ex_binop)),
+    _no_comma_binop_20: $ => binary($, $._no_comma_30, $._op_20, $._no_comma_20),
+    _no_comma_30: $ => choice($._expr_40, alias($._no_comma_annot, $.ex_annot),
+      alias($._no_comma_binop_30, $.ex_binop)),
+    _no_comma_annot: $ => seq($._no_comma_30, $.type_annot),
+    _no_comma_binop_30: $ => binary($, $._no_comma_30, $._op_30, $._expr_40),
+
+    op: $ => choice($._op_0, $._op_20, $._op_30, $._op_40, $._op_50,
+      $._op_60, $._op_70, $._op_80, $._op_90, $._op_100, ",", "/"),
+  },
 });

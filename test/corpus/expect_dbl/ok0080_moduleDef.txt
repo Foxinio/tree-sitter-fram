@@ -12,3 +12,29 @@ open X
 let z = id x
 ---
 
+(source_file
+  (def_list
+    (def_module
+      (uid)
+      (def_list
+        (def_let
+          (ex_app
+            (lid)
+            (lid))
+          (lid))
+        (def_let
+          (pub)
+          (lid)
+          (lid))
+        (def_let
+          (pub)
+          (lid)
+          (num))))
+    (def_open
+      (uid_path
+        (uid)))
+    (def_let
+      (lid)
+      (ex_app
+        (lid)
+        (lid)))))

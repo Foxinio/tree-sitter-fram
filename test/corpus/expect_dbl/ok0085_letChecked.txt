@@ -9,3 +9,19 @@ let f x =
   in y
 ---
 
+(source_file
+  (def_list
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_def_list
+        (def_list
+          (def_let
+            (lid)
+            (ex_match
+              (lid)
+              (match_clause
+                (wildcard)
+                (lid)))))
+        (lid)))))

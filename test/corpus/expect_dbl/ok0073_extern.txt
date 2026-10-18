@@ -6,3 +6,25 @@ let addInt = extern dbl_addInt : Int -> Int -> Int
 let _ = addInt 13 42
 ---
 
+(source_file
+  (def_list
+    (def_let
+      (lid)
+      (ex_annot
+        (ex_extern
+          (lid))
+        (type_annot
+          (ty_expr_arr
+            (uid_path
+              (uid))
+            (ty_expr_arr
+              (uid_path
+                (uid))
+              (uid_path
+                (uid)))))))
+    (def_let
+      (wildcard)
+      (ex_app
+        (lid)
+        (num)
+        (num)))))

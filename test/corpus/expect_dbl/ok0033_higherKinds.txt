@@ -1,0 +1,101 @@
+==================
+ok0033_higherKinds.fram
+==================
+data Option X =
+| None
+| Some of X
+
+data Pair X Y = Pair of X, Y
+
+data ST S M X = ST of (S ->[] M (Pair S X))
+
+let run s0 (ST m) =
+  match m s0 with
+  | None            => None
+  | Some (Pair _ x) => Some x
+  end
+---
+
+(source_file
+  (def_list
+    (def_data
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid))))
+    (def_data
+      (ty_expr_app
+        (ty_expr_app
+          (uid_path
+            (uid))
+          (uid_path
+            (uid)))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid))
+        (uid_path
+          (uid))))
+    (def_data
+      (ty_expr_app
+        (ty_expr_app
+          (ty_expr_app
+            (uid_path
+              (uid))
+            (uid_path
+              (uid)))
+          (uid_path
+            (uid)))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (ty_expr_arr
+          (uid_path
+            (uid))
+          (ty_expr_app
+            (ty_expr_app
+              (ty_effect)
+              (uid_path
+                (uid)))
+            (ty_expr_app
+              (ty_expr_app
+                (uid_path
+                  (uid))
+                (uid_path
+                  (uid)))
+              (uid_path
+                (uid)))))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid)
+        (ex_app
+          (uid)
+          (lid)))
+      (ex_match
+        (ex_app
+          (lid)
+          (lid))
+        (match_clause
+          (uid)
+          (uid))
+        (match_clause
+          (ex_app
+            (uid)
+            (ex_app
+              (uid)
+              (wildcard)
+              (lid)))
+          (ex_app
+            (uid)
+            (lid)))))))

@@ -1,0 +1,12 @@
+==================
+ok0157_emptyHandlerFn.fram
+==================
+let hPure = handlerfn in () end
+---
+
+(source_file
+  (def_list
+    (def_let
+      (lid)
+      (ex_handlerfn
+        (ctor_unit)))))

@@ -9,3 +9,37 @@ let f x =
   b
 ---
 
+(source_file
+  (def_list
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_def_list
+        (def_list
+          (def_type
+            (uid_path
+              (uid))
+            (ty_expr_wildcard))
+          (def_type
+            (uid_path
+              (uid))
+            (uid_path
+              (uid)))
+          (def_let
+            (ex_annot
+              (lid)
+              (type_annot
+                (uid_path
+                  (uid))))
+            (lid)))
+        (ex_def_list
+          (def_list
+            (def_let
+              (ex_annot
+                (lid)
+                (type_annot
+                  (uid_path
+                    (uid))))
+              (lid)))
+          (lid))))))

@@ -1,0 +1,81 @@
+==================
+ok0166_or_pattern_basic.fram
+==================
+data Color = Red | Green | Blue | Yellow
+
+let is_primary c =
+  match c with
+  | Red | Green | Blue => True
+  | Yellow => False
+  end
+
+data Result E A = Error of E | Ok of A
+
+let get_status r =
+  match r with
+  | Error _ | Ok _ => "has value"
+  end
+---
+
+(source_file
+  (def_list
+    (def_data
+      (uid_path
+        (uid))
+      (ctor_decl
+        (uid))
+      (ctor_decl
+        (uid))
+      (ctor_decl
+        (uid))
+      (ctor_decl
+        (uid)))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_match
+        (lid)
+        (match_clause
+          (ex_or_pattern
+            (uid)
+            (ex_or_pattern
+              (uid)
+              (uid)))
+          (uid))
+        (match_clause
+          (uid)
+          (uid))))
+    (def_data
+      (ty_expr_app
+        (ty_expr_app
+          (uid_path
+            (uid))
+          (uid_path
+            (uid)))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_match
+        (lid)
+        (match_clause
+          (ex_or_pattern
+            (ex_app
+              (uid)
+              (wildcard))
+            (ex_app
+              (uid)
+              (wildcard)))
+          (str
+            (string_content)))))))

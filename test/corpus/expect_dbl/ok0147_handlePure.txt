@@ -1,0 +1,59 @@
+==================
+ok0147_handlePure.fram
+==================
+data T (E : effect) = X
+
+let h = handler X end
+
+let foo (bar : {E, ~n : T E} -> Unit ->[] Unit) =
+  handle ~n with h in bar ()
+---
+
+(source_file
+  (def_list
+    (def_data
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (ty_kind_annot
+          (uid_path
+            (uid))
+          (kind_effect)))
+      (ctor_decl
+        (uid)))
+    (def_let
+      (lid)
+      (ex_handler
+        (uid)))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_arr
+              (ty_record
+                (ty_fld_type
+                  (uid))
+                (ty_fld_nameval
+                  (tlid)
+                  (ty_expr_app
+                    (uid_path
+                      (uid))
+                    (uid_path
+                      (uid)))))
+              (ty_expr_arr
+                (uid_path
+                  (uid))
+                (ty_expr_app
+                  (ty_effect)
+                  (uid_path
+                    (uid))))))))
+      (ex_def_list
+        (def_list
+          (def_handle_with
+            (tlid)
+            (lid)))
+        (ex_app
+          (lid)
+          (ctor_unit))))))

@@ -1,0 +1,48 @@
+==================
+ok0176_or_pattern_handler.fram
+==================
+data T = A | B | C
+
+let _ =
+  handle x = A
+  return (A | B) => C
+  return C => A
+  finally (A | B | C) => ()
+  in
+  x
+---
+
+(source_file
+  (def_list
+    (def_data
+      (uid_path
+        (uid))
+      (ctor_decl
+        (uid))
+      (ctor_decl
+        (uid))
+      (ctor_decl
+        (uid)))
+    (def_let
+      (wildcard)
+      (ex_def_list
+        (def_list
+          (def_handle
+            (lid)
+            (uid)
+            (h_return
+              (ex_or_pattern
+                (uid)
+                (uid))
+              (uid))
+            (h_return
+              (uid)
+              (uid))
+            (h_finally
+              (ex_or_pattern
+                (uid)
+                (ex_or_pattern
+                  (uid)
+                  (uid)))
+              (ctor_unit))))
+        (lid)))))

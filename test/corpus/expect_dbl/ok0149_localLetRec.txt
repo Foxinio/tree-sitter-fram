@@ -1,0 +1,28 @@
+==================
+ok0149_localLetRec.fram
+==================
+let (_ : Int) = (let rec iter i j = 13 in iter 42) 0
+---
+
+(source_file
+  (def_list
+    (def_let
+      (ex_annot
+        (wildcard)
+        (type_annot
+          (uid_path
+            (uid))))
+      (ex_app
+        (ex_def_list
+          (def_list
+            (def_let
+              (rec)
+              (ex_app
+                (lid)
+                (lid)
+                (lid))
+              (num)))
+          (ex_app
+            (lid)
+            (num)))
+        (num)))))

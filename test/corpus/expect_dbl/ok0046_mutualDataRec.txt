@@ -9,3 +9,43 @@ rec
 end
 ---
 
+(source_file
+  (def_list
+    (def_rec
+      (rec)
+      (def_list
+        (def_data
+          (ty_expr_app
+            (uid_path
+              (uid))
+            (uid_path
+              (uid)))
+          (ctor_decl
+            (uid)
+            (uid_path
+              (uid))
+            (ty_expr_app
+              (uid_path
+                (uid))
+              (uid_path
+                (uid)))))
+        (def_data
+          (ty_expr_app
+            (uid_path
+              (uid))
+            (uid_path
+              (uid)))
+          (ctor_decl
+            (uid))
+          (ctor_decl
+            (uid)
+            (ty_expr_app
+              (uid_path
+                (uid))
+              (uid_path
+                (uid)))
+            (ty_expr_app
+              (uid_path
+                (uid))
+              (uid_path
+                (uid)))))))))

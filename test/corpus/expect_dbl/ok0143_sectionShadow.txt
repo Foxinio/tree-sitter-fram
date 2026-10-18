@@ -1,0 +1,42 @@
+==================
+ok0143_sectionShadow.fram
+==================
+parameter ~x : Int
+
+section
+  parameter ~x : Bool
+
+  let y = ~x : Bool
+end
+
+let z = ~x : Int
+---
+
+(source_file
+  (def_list
+    (def_parameter
+      (fld_nameannot
+        (tlid)
+        (uid_path
+          (uid))))
+    (def_section
+      (def_list
+        (def_parameter
+          (fld_nameannot
+            (tlid)
+            (uid_path
+              (uid))))
+        (def_let
+          (lid)
+          (ex_annot
+            (tlid)
+            (type_annot
+              (uid_path
+                (uid)))))))
+    (def_let
+      (lid)
+      (ex_annot
+        (tlid)
+        (type_annot
+          (uid_path
+            (uid)))))))

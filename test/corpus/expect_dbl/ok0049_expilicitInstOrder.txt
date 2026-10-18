@@ -6,3 +6,45 @@ data Pair X Y = Pair of X, Y
 let swap {A,B} (Pair x y) = Pair {Y=A,X=B} y x
 ---
 
+(source_file
+  (def_list
+    (def_data
+      (ty_expr_app
+        (ty_expr_app
+          (uid_path
+            (uid))
+          (uid_path
+            (uid)))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid))
+        (uid_path
+          (uid))))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_type
+            (uid))
+          (fld_type
+            (uid)))
+        (ex_app
+          (uid)
+          (lid)
+          (lid)))
+      (ex_app
+        (uid)
+        (ex_record
+          (fld_typeval
+            (uid)
+            (uid_path
+              (uid)))
+          (fld_typeval
+            (uid)
+            (uid_path
+              (uid))))
+        (lid)
+        (lid)))))

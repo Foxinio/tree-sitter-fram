@@ -8,3 +8,23 @@ handle id with hId
 let _ = id ()
 ---
 
+(source_file
+  (def_list
+    (def_let
+      (lid)
+      (ex_handler
+        (ex_effect
+          (lid)
+          (resumption
+            (lid))
+          (ex_app
+            (lid)
+            (lid)))))
+    (def_handle_with
+      (lid)
+      (lid))
+    (def_let
+      (wildcard)
+      (ex_app
+        (lid)
+        (ctor_unit)))))

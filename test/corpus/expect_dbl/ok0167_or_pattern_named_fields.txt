@@ -1,0 +1,61 @@
+==================
+ok0167_or_pattern_named_fields.fram
+==================
+data PairRec A B = PairRec of { fst : A, snd : B }
+
+let choose_component p =
+  match p with
+  | PairRec { fst = x, snd = _ }
+  | PairRec { fst = _, snd = x } => x
+  end
+---
+
+(source_file
+  (def_list
+    (def_data
+      (ty_expr_app
+        (ty_expr_app
+          (uid_path
+            (uid))
+          (uid_path
+            (uid)))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (ty_record
+          (ty_fld_nameval
+            (lid)
+            (uid_path
+              (uid)))
+          (ty_fld_nameval
+            (lid)
+            (uid_path
+              (uid))))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_match
+        (lid)
+        (match_clause
+          (ex_or_pattern
+            (ex_app
+              (uid)
+              (ex_record
+                (fld_nameval
+                  (lid)
+                  (lid))
+                (fld_nameval
+                  (lid)
+                  (wildcard))))
+            (ex_app
+              (uid)
+              (ex_record
+                (fld_nameval
+                  (lid)
+                  (wildcard))
+                (fld_nameval
+                  (lid)
+                  (lid)))))
+          (lid))))))

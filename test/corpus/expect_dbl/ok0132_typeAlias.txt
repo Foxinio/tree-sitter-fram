@@ -11,3 +11,56 @@ let g (x : U T) = x
 let _ = g a
 ---
 
+(source_file
+  (def_list
+    (def_type
+      (uid_path
+        (uid))
+      (uid_path
+        (uid)))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_annot
+          (lid)
+          (type_annot
+            (uid_path
+              (uid)))))
+      (lid))
+    (def_let
+      (wildcard)
+      (ex_app
+        (lid)
+        (num)))
+    (def_data
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid))))
+    (def_let
+      (lid)
+      (ex_app
+        (uid)
+        (num)))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_app
+              (uid_path
+                (uid))
+              (uid_path
+                (uid))))))
+      (lid))
+    (def_let
+      (wildcard)
+      (ex_app
+        (lid)
+        (lid)))))

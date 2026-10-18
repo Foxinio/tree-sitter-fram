@@ -1,0 +1,347 @@
+==================
+ok0148_equivEffect.fram
+==================
+data Box E = Box of (Unit ->[E] Unit)
+let f (g : Box _ -> Box _) x = g (g x)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+let f g = f (f g)
+---
+
+(source_file
+  (def_list
+    (def_data
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid)
+        (ty_expr_arr
+          (uid_path
+            (uid))
+          (ty_expr_app
+            (ty_effect
+              (uid_path
+                (uid)))
+            (uid_path
+              (uid))))))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_arr
+              (ty_expr_app
+                (uid_path
+                  (uid))
+                (ty_expr_wildcard))
+              (ty_expr_app
+                (uid_path
+                  (uid))
+                (ty_expr_wildcard)))))
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_app
+        (lid)
+        (ex_app
+          (lid)
+          (lid))))))

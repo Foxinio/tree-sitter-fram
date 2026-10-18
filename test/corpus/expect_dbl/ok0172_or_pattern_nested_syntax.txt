@@ -1,0 +1,125 @@
+==================
+ok0172_or_pattern_nested_syntax.fram
+==================
+data Option A = None | Some of A
+
+data Triple = A | B | C
+
+let test1 x =
+  match x with
+  | Some (A | B) => "A or B"
+  | Some C => "C"
+  | None => "None"
+  end
+
+let test2 x =
+  match x with
+  | Some (Some (A | B | C)) => "nested triple"
+  | Some None => "some none"
+  | None => "none"
+  end
+
+let test3 x =
+  match x with
+  | Some (A | B) | None => "A, B, or None"
+  | Some C => "C"
+  end
+---
+
+(source_file
+  (def_list
+    (def_data
+      (ty_expr_app
+        (uid_path
+          (uid))
+        (uid_path
+          (uid)))
+      (ctor_decl
+        (uid))
+      (ctor_decl
+        (uid)
+        (uid_path
+          (uid))))
+    (def_data
+      (uid_path
+        (uid))
+      (ctor_decl
+        (uid))
+      (ctor_decl
+        (uid))
+      (ctor_decl
+        (uid)))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_match
+        (lid)
+        (match_clause
+          (ex_app
+            (uid)
+            (ex_or_pattern
+              (uid)
+              (uid)))
+          (str
+            (string_content)))
+        (match_clause
+          (ex_app
+            (uid)
+            (uid))
+          (str
+            (string_content)))
+        (match_clause
+          (uid)
+          (str
+            (string_content)))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_match
+        (lid)
+        (match_clause
+          (ex_app
+            (uid)
+            (ex_app
+              (uid)
+              (ex_or_pattern
+                (uid)
+                (ex_or_pattern
+                  (uid)
+                  (uid)))))
+          (str
+            (string_content)))
+        (match_clause
+          (ex_app
+            (uid)
+            (uid))
+          (str
+            (string_content)))
+        (match_clause
+          (uid)
+          (str
+            (string_content)))))
+    (def_let
+      (ex_app
+        (lid)
+        (lid))
+      (ex_match
+        (lid)
+        (match_clause
+          (ex_or_pattern
+            (ex_app
+              (uid)
+              (ex_or_pattern
+                (uid)
+                (uid)))
+            (uid))
+          (str
+            (string_content)))
+        (match_clause
+          (ex_app
+            (uid)
+            (uid))
+          (str
+            (string_content)))))))

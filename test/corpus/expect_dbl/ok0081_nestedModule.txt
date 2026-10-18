@@ -19,3 +19,43 @@ open X.Y
 let y = id x
 ---
 
+(source_file
+  (def_list
+    (def_module
+      (uid)
+      (def_list
+        (def_let
+          (pub)
+          (ex_app
+            (lid)
+            (lid))
+          (lid))))
+    (def_module
+      (uid)
+      (def_list
+        (def_let
+          (lid)
+          (num))
+        (def_module
+          (pub)
+          (uid)
+          (def_list
+            (def_open
+              (pub)
+              (uid_path
+                (uid)))
+            (def_let
+              (pub)
+              (lid)
+              (ex_app
+                (lid)
+                (lid)))))))
+    (def_open
+      (uid_path
+        (uid)
+        (uid)))
+    (def_let
+      (lid)
+      (ex_app
+        (lid)
+        (lid)))))

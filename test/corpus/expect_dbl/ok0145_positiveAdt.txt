@@ -1,0 +1,40 @@
+==================
+ok0145_positiveAdt.fram
+==================
+data rec T = C of ((T -> Unit) -> Unit)
+let foo (C f) = f (fn (C g) => g (fn _ => ()))
+---
+
+(source_file
+  (def_list
+    (def_data
+      (rec)
+      (uid_path
+        (uid))
+      (ctor_decl
+        (uid)
+        (ty_expr_arr
+          (ty_expr_arr
+            (uid_path
+              (uid))
+            (uid_path
+              (uid)))
+          (uid_path
+            (uid)))))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_app
+          (uid)
+          (lid)))
+      (ex_app
+        (lid)
+        (ex_fn
+          (ex_app
+            (uid)
+            (lid))
+          (ex_app
+            (lid)
+            (ex_fn
+              (wildcard)
+              (ctor_unit))))))))

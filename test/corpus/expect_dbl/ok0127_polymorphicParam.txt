@@ -6,3 +6,20 @@ parameter ~id : {T} -> T -> T
 let id = ~id
 ---
 
+(source_file
+  (def_list
+    (def_parameter
+      (fld_nameannot
+        (tlid)
+        (ty_expr_arr
+          (ty_record
+            (ty_fld_type
+              (uid)))
+          (ty_expr_arr
+            (uid_path
+              (uid))
+            (uid_path
+              (uid))))))
+    (def_let
+      (lid)
+      (tlid))))

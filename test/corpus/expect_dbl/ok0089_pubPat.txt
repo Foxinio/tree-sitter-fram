@@ -10,3 +10,40 @@ end
 let x = M.x
 ---
 
+(source_file
+  (def_list
+    (def_module
+      (uid)
+      (def_list
+        (def_data
+          (ty_expr_app
+            (ty_expr_app
+              (uid_path
+                (uid))
+              (uid_path
+                (uid)))
+            (uid_path
+              (uid)))
+          (ctor_decl
+            (uid)
+            (uid_path
+              (uid))
+            (uid_path
+              (uid))))
+        (def_let
+          (ex_app
+            (uid)
+            (ex_pub
+              (pub)
+              (lid))
+            (lid))
+          (ex_app
+            (uid)
+            (num)
+            (num)))))
+    (def_let
+      (lid)
+      (ex_select
+        (uid_path
+          (uid))
+        (lid)))))

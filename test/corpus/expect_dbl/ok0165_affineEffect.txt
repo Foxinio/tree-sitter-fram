@@ -1,0 +1,40 @@
+==================
+ok0165_affineEffect.fram
+==================
+let runAffine {R} (f : Unit ->[aff R] Unit) =
+  f ()
+
+let _ = runAffine (fn x => x)
+---
+
+(source_file
+  (def_list
+    (def_let
+      (ex_app
+        (lid)
+        (ex_record
+          (fld_type
+            (uid)))
+        (ex_annot
+          (lid)
+          (type_annot
+            (ty_expr_arr
+              (uid_path
+                (uid))
+              (ty_expr_app
+                (ty_effect
+                  (ty_expr_aff
+                    (uid_path
+                      (uid))))
+                (uid_path
+                  (uid)))))))
+      (ex_app
+        (lid)
+        (ctor_unit)))
+    (def_let
+      (wildcard)
+      (ex_app
+        (lid)
+        (ex_fn
+          (lid)
+          (lid))))))

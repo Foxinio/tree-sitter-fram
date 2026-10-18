@@ -10,3 +10,34 @@ end
 let f (C : M.N.T) = M.N.C
 ---
 
+(source_file
+  (def_list
+    (def_module
+      (uid)
+      (def_list
+        (def_module
+          (pub)
+          (uid)
+          (def_list
+            (def_data
+              (data_vis
+                (pub))
+              (uid_path
+                (uid))
+              (ctor_decl
+                (uid)))))))
+    (def_let
+      (ex_app
+        (lid)
+        (ex_annot
+          (uid)
+          (type_annot
+            (uid_path
+              (uid)
+              (uid)
+              (uid)))))
+      (ex_select
+        (uid_path
+          (uid)
+          (uid))
+        (uid)))))
