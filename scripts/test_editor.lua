@@ -145,5 +145,5 @@ package.path = (arg[2] or "../fram.nvim") .. "/lua/?.lua;" .. package.path
 require("fram").setup()
 assert(parsers.fram.install_info.revision == nil)
 assert(parsers.fram.install_info.branch == "main")
-assert(parsers.fram.install_info.url == "https://github.com/fram-lang/tree-sitter-fram")
+assert(parsers.fram.install_info.url == "https://github.com/Foxinio/tree-sitter-fram")
 print("Fram structure, scanner, incremental parsing, highlights, and plugin checks passed")
