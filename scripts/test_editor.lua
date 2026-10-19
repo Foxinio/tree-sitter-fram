@@ -137,6 +137,38 @@ for _, path in ipairs(query_paths) do
   assert(captures["string:text "])
   assert(captures["punctuation.special:\\{"])
   assert(not captures['string:"text \\{ g y }"'], "interpolation is highlighted as plain string")
+
+  local punctuation_source = [=[@{test}
+type F = (_ ->[_] _) ->> {x : Int}
+let f = fn (x : Int) => match x with | y => {x=y, xs=[1,2]} end
+let g = value >.run
+let h = M.x
+let eff = effect () / r => r ()
+let s = "([]{} -> ->> => : , . | = / >.)"
+# ([]{} -> ->> => : , . | = / >.)
+]=]
+  local punctuation = {}
+  for id, node in query:iter_captures(parse(punctuation_source), punctuation_source) do
+    local capture = query.captures[id]
+    if capture == "operator" or capture:match("^punctuation%.") then
+      local parent = node
+      while parent do
+        assert(parent:type() ~= "str" and not parent:type():match("comment"),
+          "punctuation captured inside a string or comment")
+        parent = parent:parent()
+      end
+      punctuation[capture .. ":" .. vim.treesitter.get_node_text(node, punctuation_source)] = true
+    end
+  end
+  for _, bracket in ipairs({ "(", ")", "[", "]", "{", "}", "@{" }) do
+    assert(punctuation["punctuation.bracket:" .. bracket], "missing bracket: " .. bracket)
+  end
+  for _, delimiter in ipairs({ ",", ".", ":" }) do
+    assert(punctuation["punctuation.delimiter:" .. delimiter], "missing delimiter: " .. delimiter)
+  end
+  for _, operator in ipairs({ "=", "|", "/", "->", "->>", "=>", ">." }) do
+    assert(punctuation["operator:" .. operator], "missing operator: " .. operator)
+  end
 end
 
 local parsers = {}
