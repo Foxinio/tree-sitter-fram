@@ -121,6 +121,17 @@ for _, path in ipairs(query_paths) do
   if query_source then assert(text == query_source, "plugin and grammar queries differ") end
   query_source = text
   local query = vim.treesitter.query.parse("fram", text)
+  local spell_source = 'let misspelledd = "misspelledd"\n# misspelledd\n## misspelledd\n{# misspelledd #}\n{# unfinished'
+  local spell_comments = {}
+  for id, node in query:iter_captures(parse(spell_source), spell_source) do
+    if query.captures[id] == "spell" then
+      assert(node:type():match("comment"), "spell checking enabled outside a comment")
+      spell_comments[node:type()] = true
+    end
+  end
+  for _, kind in ipairs({ "line_comment", "line_doc_comment", "block_comment", "block_comment_unfinished" }) do
+    assert(spell_comments[kind], "spell checking missing for " .. kind)
+  end
   local source = 'pub let f x (z : Int) = "text \\{ g y }" let binding = callee argument method m p = body'
   local captures = {}
   for id, node in query:iter_captures(parse(source), source) do
